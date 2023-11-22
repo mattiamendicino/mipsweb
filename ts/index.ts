@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.body.style.opacity = "1";
 
     document.getElementById('assemble-button')?.addEventListener('click', () => {
-        editorExecuteMode();
         vm.assemble(editor.getValue());
+        updateEditor();
         updateInterface();
     });
 
     document.getElementById('stop-button')?.addEventListener('click', () => {
-        editorEditMode();
         vm.stop();
+        updateEditor();
         updateInterface();
     });
 
@@ -32,31 +32,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
         vm.run();
     });
 
-    document.getElementById('editor')?.addEventListener('click', () => {
-        if (vm.getState() === "edit") return;
-        editorEditMode();
-        vm.stop();
-        updateInterface();
-    });
-
 });
 
-function editorExecuteMode() {
-    editor.setOptions({
-        readOnly: true,
-        highlightActiveLine: false,
-        highlightGutterLine: false
-    });
-    document.getElementsByClassName("ace_cursor")[Symbol.iterator]().next().value.style.display = "none";
-}
-
-function editorEditMode() {
-    editor.setOptions({
-        readOnly: false,
-        highlightActiveLine: true,
-        highlightGutterLine: true
-    });
-    document.getElementsByClassName("ace_cursor")[Symbol.iterator]().next().value.style.display = "block";
+function updateEditor() {
+    const vmState = vm.getState();
+    const cursors = document.getElementsByClassName("ace_hidden-cursors");
+    if (vmState === "edit") {
+        editor.setOptions({
+            readOnly: false,
+            highlightActiveLine: true,
+            highlightGutterLine: true
+        });
+        for (let i = 0; i < cursors.length; i++) {
+            (cursors[i] as HTMLElement).style.display = "block";
+        }
+    } else if (vmState === "execute") {
+        editor.setOptions({
+            readOnly: true,
+            highlightActiveLine: false,
+            highlightGutterLine: false
+        });
+        for (let i = 0; i < cursors.length; i++) {
+            (cursors[i] as HTMLElement).style.display = "none";
+        }
+    }
 }
 
 function updateInterface() {

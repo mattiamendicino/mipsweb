@@ -5,16 +5,16 @@ editor.session.setMode("ace/mode/mips");
 const vm = new VirtualMachine();
 updateInterface();
 document.addEventListener('DOMContentLoaded', (event) => {
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d;
     document.body.style.opacity = "1";
     (_a = document.getElementById('assemble-button')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
-        editorExecuteMode();
         vm.assemble(editor.getValue());
+        updateEditor();
         updateInterface();
     });
     (_b = document.getElementById('stop-button')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', () => {
-        editorEditMode();
         vm.stop();
+        updateEditor();
         updateInterface();
     });
     (_c = document.getElementById('runInstruction-button')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', () => {
@@ -23,29 +23,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
     (_d = document.getElementById('run-button')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', () => {
         vm.run();
     });
-    (_e = document.getElementById('editor')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', () => {
-        if (vm.getState() === "edit")
-            return;
-        editorEditMode();
-        vm.stop();
-        updateInterface();
-    });
 });
-function editorExecuteMode() {
-    editor.setOptions({
-        readOnly: true,
-        highlightActiveLine: false,
-        highlightGutterLine: false
-    });
-    document.getElementsByClassName("ace_cursor")[Symbol.iterator]().next().value.style.display = "none";
-}
-function editorEditMode() {
-    editor.setOptions({
-        readOnly: false,
-        highlightActiveLine: true,
-        highlightGutterLine: true
-    });
-    document.getElementsByClassName("ace_cursor")[Symbol.iterator]().next().value.style.display = "block";
+function updateEditor() {
+    const vmState = vm.getState();
+    const cursors = document.getElementsByClassName("ace_hidden-cursors");
+    if (vmState === "edit") {
+        editor.setOptions({
+            readOnly: false,
+            highlightActiveLine: true,
+            highlightGutterLine: true
+        });
+        for (let i = 0; i < cursors.length; i++) {
+            cursors[i].style.display = "block";
+        }
+    }
+    else if (vmState === "execute") {
+        editor.setOptions({
+            readOnly: true,
+            highlightActiveLine: false,
+            highlightGutterLine: false
+        });
+        for (let i = 0; i < cursors.length; i++) {
+            cursors[i].style.display = "none";
+        }
+    }
 }
 function updateInterface() {
     const vmState = vm.getState();
