@@ -36,7 +36,7 @@ export class Assembler {
         }
         const directive = Directives.get(parts[0]);
         if (directive) {
-            if (!directive.parent) {
+            if (directive.segment) {
                 this.currentDirective = directive!;
             } else {
                 directive.assemble!(line, memory, registers);

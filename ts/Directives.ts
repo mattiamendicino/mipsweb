@@ -2,31 +2,30 @@ import {Memory} from "./Memory.js";
 import {Registers} from "./Registers.js";
 
 export type Directive = {
-    parent?: string | undefined,
+    segment?: boolean,
     assemble?(line: string, memory: Memory, registers: Registers): void;
 }
 
 export class Directives {
 
     private static directives: Map<string, Directive> = new Map<string, Directive>([
-        [".data", {}],
-        [".text", {}],
+        [".data", {
+            segment: true
+        }],
+        [".text", {
+            segment: true
+        }],
         [".align", {
-            parent: ".data",
             assemble(line: string, memory: Memory, registers: Registers) {
-
             }
         }],
         [".space", {
-            parent: ".data",
             assemble(line: string, memory: Memory, registers: Registers) {
 
             }
         }],
         [".globl", {
-            parent: ".text",
             assemble(line: string, memory: Memory, registers: Registers) {
-
             }
         }],
     ]);
@@ -37,9 +36,7 @@ export class Directives {
             return undefined;
         }
         let copy: Directive = {};
-        if (directive.parent) {
-            copy.parent = directive.parent;
-        }
+        copy.segment = directive.segment;
         if (directive.assemble) {
             copy.assemble = (line: string, memory: Memory, registers: Registers) => {
                 directive.assemble!(line, memory, registers);

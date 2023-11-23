@@ -5,9 +5,7 @@ export class Directives {
             return undefined;
         }
         let copy = {};
-        if (directive.parent) {
-            copy.parent = directive.parent;
-        }
+        copy.segment = directive.segment;
         if (directive.assemble) {
             copy.assemble = (line, memory, registers) => {
                 directive.assemble(line, memory, registers);
@@ -17,20 +15,21 @@ export class Directives {
     }
 }
 Directives.directives = new Map([
-    [".data", {}],
-    [".text", {}],
+    [".data", {
+            segment: true
+        }],
+    [".text", {
+            segment: true
+        }],
     [".align", {
-            parent: ".data",
             assemble(line, memory, registers) {
             }
         }],
     [".space", {
-            parent: ".data",
             assemble(line, memory, registers) {
             }
         }],
     [".globl", {
-            parent: ".text",
             assemble(line, memory, registers) {
             }
         }],
