@@ -52,15 +52,15 @@ export class Assembler {
             switch(instruction.format) {
                 case 'R':
                     if (lineParts.length !== 4) throw new Error(``);
-                    this.assembleFormatR(lineNumber, lineParts, instruction, memory, registers);
+                    this.assembleR(lineNumber, lineParts, instruction, memory, registers);
                     return;
                 case 'I':
                     if (lineParts.length !== 4) throw new Error(``);
-                    this.assembleFormatI(lineNumber, lineParts, instruction, memory, registers);
+                    this.assembleI(lineNumber, lineParts, instruction, memory, registers);
                     return;
                 case 'J':
                     if (lineParts.length !== 2) throw new Error(``);
-                    this.assembleFormatJ(lineNumber, lineParts, instruction, memory);
+                    this.assembleJ(lineNumber, lineParts, instruction, memory);
                     return;
                 default:
                     throw new Error(``);
@@ -70,7 +70,7 @@ export class Assembler {
         }
     }
 
-    private assembleFormatR(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory, registers: Registers) {
+    private assembleR(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory, registers: Registers) {
         if (!registers.getByName(lineParts[1])) throw new Error(``);
         const rd: Register = registers.getByName(lineParts[1])!;
         if (!registers.getByName(lineParts[2])) throw new Error(``);
@@ -88,26 +88,24 @@ export class Assembler {
         this.storeInstruction(binary, memory);
     }
 
-    private assembleFormatI(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory, registers: Registers) {
-        if (instruction.type === "ALU") {
-            if (!registers.getByName(lineParts[1])) throw new Error(``);
-            const rt: Register = registers.getByName(lineParts[1])!;
-            if (!registers.getByName(lineParts[2])) throw new Error(``);
-            const rs: Register = registers.getByName(lineParts[2])!;
-            const immediate: word = Memory.word(Number(lineParts[3]));
-            const binary: word = (instruction.opcode! << 26) | (rs.number! << 21) | (rt.number! << 16) | immediate;
-            const assembledLine: AssembledLine = {
-                sourceLine: lineNumber,
-                basicInstruction: lineParts.join(' '),
-                binaryInstruction: binary,
-                address: this.currentTextSegmentAddress
-            };
-            this.assembledLines.push(assembledLine);
-            this.storeInstruction(binary, memory);
-        }
+    private assembleI(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory, registers: Registers) {
+        if (!registers.getByName(lineParts[1])) throw new Error(``);
+        const rt: Register = registers.getByName(lineParts[1])!;
+        if (!registers.getByName(lineParts[2])) throw new Error(``);
+        const rs: Register = registers.getByName(lineParts[2])!;
+        const immediate: word = Memory.word(Number(lineParts[3]));
+        const binary: word = (instruction.opcode! << 26) | (rs.number! << 21) | (rt.number! << 16) | immediate;
+        const assembledLine: AssembledLine = {
+            sourceLine: lineNumber,
+            basicInstruction: lineParts.join(' '),
+            binaryInstruction: binary,
+            address: this.currentTextSegmentAddress
+        };
+        this.assembledLines.push(assembledLine);
+        this.storeInstruction(binary, memory);
     }
 
-    private assembleFormatJ(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory) {
+    private assembleJ(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory) {
         const address: word = Memory.word(Number(lineParts[1]));
         const binary: word = (instruction.opcode! << 26) | address;
         const assembledLine: AssembledLine = {

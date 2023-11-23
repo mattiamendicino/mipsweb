@@ -37,7 +37,10 @@ export class Registers {
         this.defaultPc = { name: "pc", value: 4194304 };
         this.defaultHi = { name: "hi", value: 0 };
         this.defaultLo = { name: "lo", value: 0 };
-        this.clear();
+        this.registers = this.defaultRegisters.map(register => (Object.assign({}, register)));
+        this.pc = Object.assign({}, this.defaultPc);
+        this.hi = Object.assign({}, this.defaultHi);
+        this.lo = Object.assign({}, this.defaultLo);
     }
     clear() {
         this.registers = this.defaultRegisters.map(register => (Object.assign({}, register)));

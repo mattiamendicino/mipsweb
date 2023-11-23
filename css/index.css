@@ -78,6 +78,10 @@ body {
   bottom: 6px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
+#content-container #content #editor-container #editor .next-instruction {
+  position: absolute;
+  background-color: rgba(255, 255, 128, 0.75);
+}
 #content-container #content #memory-container {
   position: absolute;
   top: 0;

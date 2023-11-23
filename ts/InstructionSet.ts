@@ -6,25 +6,37 @@ export type Instruction = {
     type?: "ALU" | "LOAD" | "STORE" | "BRANCH" | "JUMP";
     opcode?: word;
     funct?: word;
-    run?: (registers: Registers, ...args: word[]) => void;
+    run?: (registersObject: Registers, ...args: word[]) => void;
 }
 
 export class InstructionSet {
 
     private static instructions: Map<string, Instruction> = new Map<string, Instruction>([
         ["add", { format: 'R', type: "ALU", opcode: 0x00, funct: 0x20,
-            run: () => {
-                console.log("add");
+            run: (registersObject: Registers, rs: word, rt: word, rd: word) => {
+                const registers = registersObject.registers;
+                // ADD rd, rs, rt
+                // rd <- rs + rt
+                registers[rd].value = registers[rs].value + registers[rt].value;
+                // ------------------------------------------------------------
             }
         }],
         ["sub", { format: 'R', type: "ALU", opcode: 0x00, funct: 0x22,
-            run: () => {
-                console.log("sub");
+            run: (registersObject: Registers, rs: word, rt: word, rd: word) => {
+                const registers = registersObject.registers;
+                // SUB rd, rs, rt
+                // rd <- rs - rt
+                registers[rd].value = registers[rs].value - registers[rt].value;
+                // ------------------------------------------------------------
             }
         }],
         ["addi", { format: 'I', type: "ALU", opcode: 0x08,
-            run: () => {
-                console.log("addi");
+            run: (registersObject: Registers, rs: word, rt: word, immediate: word) => {
+                const registers = registersObject.registers;
+                // ADDI rt, rs, immediate
+                // rt <- rs + immediate
+                registers[rt].value = registers[rs].value + immediate;
+                // ------------------------------------------------------------
             }
         }],
     ]);
@@ -53,6 +65,28 @@ export class InstructionSet {
             };
         }
         return copy;
+    }
+
+    static getByFunct(funct: word): Instruction {
+        for(const instructionName of this.instructions.keys()) {
+            const instruction = this.instructions.get(instructionName)!;
+            if (instruction.funct === funct) {
+                if (instruction.opcode !== 0x00) throw new Error(``);
+                return instruction;
+            }
+        }
+        throw new Error(``);
+    }
+
+    static getByOpcode(opcode: word): Instruction {
+        if (opcode === 0x00) throw new Error(``);
+        for(const instructionName of this.instructions.keys()) {
+            const instruction = this.instructions.get(instructionName)!;
+            if (instruction.opcode === opcode) {
+                return instruction;
+            }
+        }
+        throw new Error(``);
     }
 
 }

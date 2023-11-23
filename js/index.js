@@ -4,6 +4,7 @@ editor.setTheme("ace/theme/chrome");
 editor.session.setMode("ace/mode/mips");
 const vm = new VirtualMachine();
 updateInterface();
+updateRegisters();
 document.addEventListener('DOMContentLoaded', (event) => {
     var _a, _b, _c, _d;
     document.body.style.opacity = "1";
@@ -16,12 +17,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         vm.stop();
         updateEditor();
         updateInterface();
+        updateRegisters();
     });
     (_c = document.getElementById('runInstruction-button')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', () => {
         vm.runInstruction();
+        updateEditor();
+        updateRegisters();
     });
     (_d = document.getElementById('run-button')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', () => {
         vm.run();
+        updateEditor();
+        updateRegisters();
     });
 });
 function updateEditor() {
@@ -36,6 +42,12 @@ function updateEditor() {
         for (let i = 0; i < cursors.length; i++) {
             cursors[i].style.display = "block";
         }
+        let markers = editor.session.getMarkers(false);
+        for (let i in markers) {
+            if (markers[i].clazz === "next-instruction") {
+                editor.session.removeMarker(markers[i].id);
+            }
+        }
     }
     else if (vmState === "execute") {
         editor.setOptions({
@@ -45,6 +57,17 @@ function updateEditor() {
         });
         for (let i = 0; i < cursors.length; i++) {
             cursors[i].style.display = "none";
+        }
+        const nextInstructionLine = vm.getNextInstructionLine();
+        let markers = editor.session.getMarkers(false);
+        for (let i in markers) {
+            if (markers[i].clazz === "next-instruction") {
+                editor.session.removeMarker(markers[i].id);
+            }
+        }
+        if (nextInstructionLine) {
+            let Range = ace.require('ace/range').Range, range = new Range(nextInstructionLine - 1, 0, nextInstructionLine - 1, Infinity);
+            editor.session.addMarker(range, "next-instruction", "fullLine", false);
         }
     }
 }
@@ -70,4 +93,46 @@ function executeInterface() {
     document.getElementById('stop-button').style.display = "block";
     document.getElementById('run-button').style.display = "block";
     document.getElementById('runInstruction-button').style.display = "block";
+}
+function updateRegisters() {
+    let rows = "";
+    let registers = vm.getRegisters();
+    for (let i = 0; i < registers.length + 3; i++) {
+        let register;
+        if (i < registers.length) {
+            register = registers[i];
+        }
+        else {
+            if (i === 32)
+                register = vm.getSpecialRegister("pc");
+            if (i === 33)
+                register = vm.getSpecialRegister("hi");
+            if (i === 34)
+                register = vm.getSpecialRegister("lo");
+        }
+        let number = "";
+        if (i < registers.length)
+            number = `${i}`;
+        rows += `
+            <div class="row">
+                <div class="row-item name">
+                    ${register.name}
+                </div>
+                <!--
+                <div class="row-item number">
+                    ${number}
+                </div>
+                -->
+                <div class="row-item value">
+                    ${register.value}
+                </div>
+            </div>
+        `;
+    }
+    document.getElementById('registers').innerHTML = `
+            <div class="label">Registers</div>
+                <div class="table">
+                    ${rows}
+                </div>
+        `;
 }

@@ -13,11 +13,11 @@ export class Memory {
         this.memory.clear();
     }
 
-    store(address: number, value: number) {
+    store(address: word, value: word) {
         this.memory.set(Memory.word(address), Memory.word(value));
     }
 
-    fetch(address: number) {
+    fetch(address: word) {
         return this.memory.get(Memory.word(address));
     }
 

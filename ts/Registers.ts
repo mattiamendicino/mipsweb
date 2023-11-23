@@ -1,9 +1,9 @@
 import {word} from "./Memory.js";
 
 export type Register = {
-    name?: string | undefined,
+    name: string,
     number?: word | undefined,
-    value?: word | undefined;
+    value: word;
 }
 
 export class Registers {
@@ -46,13 +46,16 @@ export class Registers {
     private defaultHi: Register =   { name: "hi",                value: 0};
     private defaultLo: Register =   { name: "lo",                value: 0};
 
-    registers?: Register[];
-    pc?: Register;
-    hi?: Register;
-    lo?: Register;
+    registers: Register[];
+    pc: Register;
+    hi: Register;
+    lo: Register;
 
     constructor() {
-        this.clear();
+        this.registers = this.defaultRegisters.map(register => ({ ...register }));
+        this.pc = { ...this.defaultPc };
+        this.hi = { ...this.defaultHi };
+        this.lo = { ...this.defaultLo };
     }
 
     clear() {
@@ -64,7 +67,7 @@ export class Registers {
 
     getByName(name: string) {
         if (!this.registers) return undefined;
-        const register = this.registers!.find(register => register.name === name);
+        const register = this.registers.find(register => register.name === name);
         if (!register) return undefined;
         return register;
     }
