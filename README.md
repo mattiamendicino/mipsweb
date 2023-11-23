@@ -5,7 +5,7 @@ Progetto svolto come tirocinio presso l'Università degli Studi di Milano Statal
 
 È possibile provare il simulatore al seguente link [mattiamendicino.github.io/mipsweb](https://mattiamendicino.github.io/mipsweb/).
 
-Al momento è implementata solo la parte di assemblaggio delle istruzioni supportate e il risultato di questa operazione viene stampato in console.
+Al momento il contenuto della memoria viene stampato in console dopo l'assemblaggio delle istruzioni.
 
 ### Istruzioni supportate
 
