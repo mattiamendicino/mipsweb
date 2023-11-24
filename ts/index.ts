@@ -27,6 +27,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         updateRegisters();
     });
 
+    document.getElementById('editor-overlay')?.addEventListener('click', () => {
+        if (vm.getState() === "edit") return;
+        vm.stop();
+        updateEditor();
+        updateInterface();
+        updateRegisters();
+    });
+
     document.getElementById('runInstruction-button')?.addEventListener('click', () => {
         vm.runInstruction();
         updateEditor();
@@ -98,6 +106,7 @@ function editInterface() {
     document.getElementById('stop-button')!.style.display = "none";
     document.getElementById('run-button')!.style.display = "none";
     document.getElementById('runInstruction-button')!.style.display = "none";
+    document.getElementById('editor-overlay-container')!.style.display = "none";
 }
 
 function executeInterface() {
@@ -106,6 +115,7 @@ function executeInterface() {
     document.getElementById('stop-button')!.style.display = "block";
     document.getElementById('run-button')!.style.display = "block";
     document.getElementById('runInstruction-button')!.style.display = "block";
+    document.getElementById('editor-overlay-container')!.style.display = "block";
 }
 
 function updateRegisters() {

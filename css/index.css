@@ -82,6 +82,21 @@ body {
   position: absolute;
   background-color: rgba(255, 255, 128, 0.75);
 }
+#content-container #content #editor-overlay-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 40%;
+  z-index: 2;
+}
+#content-container #content #editor-overlay-container #editor-overlay {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+}
 #content-container #content #memory-container {
   position: absolute;
   top: 0;

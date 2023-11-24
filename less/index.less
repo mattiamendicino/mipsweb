@@ -85,6 +85,22 @@ body {
         }
       }
     }
+    #editor-overlay-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 40%;
+      z-index: 2;
+      #editor-overlay {
+        position: absolute;
+        @margin: 6px;
+        top: @margin;
+        left: @margin;
+        right: @margin;
+        bottom: @margin;
+      }
+    }
 
     #memory-container {
       position: absolute;

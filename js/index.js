@@ -6,7 +6,7 @@ const vm = new VirtualMachine();
 updateInterface();
 updateRegisters();
 document.addEventListener('DOMContentLoaded', (event) => {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
     document.body.style.opacity = "1";
     (_a = document.getElementById('assemble-button')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
         vm.assemble(editor.getValue());
@@ -19,12 +19,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         updateInterface();
         updateRegisters();
     });
-    (_c = document.getElementById('runInstruction-button')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', () => {
+    (_c = document.getElementById('editor-overlay')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', () => {
+        if (vm.getState() === "edit")
+            return;
+        vm.stop();
+        updateEditor();
+        updateInterface();
+        updateRegisters();
+    });
+    (_d = document.getElementById('runInstruction-button')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', () => {
         vm.runInstruction();
         updateEditor();
         updateRegisters();
     });
-    (_d = document.getElementById('run-button')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', () => {
+    (_e = document.getElementById('run-button')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', () => {
         vm.run();
         updateEditor();
         updateRegisters();
@@ -86,6 +94,7 @@ function editInterface() {
     document.getElementById('stop-button').style.display = "none";
     document.getElementById('run-button').style.display = "none";
     document.getElementById('runInstruction-button').style.display = "none";
+    document.getElementById('editor-overlay-container').style.display = "none";
 }
 function executeInterface() {
     document.getElementById('editor-container').style.width = "40%";
@@ -93,6 +102,7 @@ function executeInterface() {
     document.getElementById('stop-button').style.display = "block";
     document.getElementById('run-button').style.display = "block";
     document.getElementById('runInstruction-button').style.display = "block";
+    document.getElementById('editor-overlay-container').style.display = "block";
 }
 function updateRegisters() {
     let rows = "";
