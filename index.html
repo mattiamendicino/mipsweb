@@ -36,11 +36,19 @@
     addi $s0, $t7, 7    # 3 + 7 = 10 -> $s0
   </div></div>
   <div id="editor-overlay-container"><div id="editor-overlay"></div></div>
-  <div id="memory-container"><div id="memory"></div></div>
+  <div id="memory-container"><div id="memory">
+    <div class="label">Memory</div>
+
+  </div></div>
   <div id="registers-container"><div id="registers"></div></div>
 </div></div>
 
 <script src="./lib/ace-editor/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script type="module" src="./js/index.js"></script>
+<script type="module" src="./js/app.js"></script>
+<script type="module" src="./js/header.js"></script>
+<script type="module" src="./js/editor.js"></script>
+<script type="module" src="./js/buttons.js"></script>
+<script type="module" src="./js/memory.js"></script>
+<script type="module" src="./js/registers.js"></script>
 </body>
 </html>

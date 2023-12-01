@@ -24,7 +24,7 @@ export class Assembler {
         for (let i = 0; i < lines.length; i++) {
             this.assembleLine(i+1, lines[i], memory, registers);
         }
-        this.printInConsole();
+        //this.printInConsole();
         memory.printInConsole();
         return this.assembledLines;
     }
@@ -124,7 +124,7 @@ export class Assembler {
     }
 
 
-    private printInConsole() {
+    /*private printInConsole() {
         console.log("- ASSEMBLED LINES -");
         console.log("Line\tInstruction\t\t\tAddress\t\tBinary");
         for (const line of this.assembledLines) {
@@ -133,5 +133,5 @@ export class Assembler {
             console.log(`${line.sourceLine}\t\t${line.basicInstruction}\t\t${hexAddress}\t${hexInstruction}`);
         }
         console.log("-");
-    }
+    }*/
 }

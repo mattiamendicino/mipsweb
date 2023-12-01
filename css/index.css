@@ -113,6 +113,18 @@ body {
   bottom: 6px;
   background-color: white;
 }
+#content-container #content #memory-container #memory .label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  font-size: 18px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 12px;
+}
 #content-container #content #registers-container {
   position: absolute;
   top: 0;

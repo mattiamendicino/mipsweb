@@ -9,13 +9,23 @@ export class Assembler {
         this.startDataSegmentAddress = Memory.word(0x10010000);
         this.currentTextSegmentAddress = this.startTextSegmentAddress;
         this.currentDataSegmentAddress = this.startDataSegmentAddress;
+        /*private printInConsole() {
+            console.log("- ASSEMBLED LINES -");
+            console.log("Line\tInstruction\t\t\tAddress\t\tBinary");
+            for (const line of this.assembledLines) {
+                const hexAddress = "0x" + line.address.toString(16).padStart(8, '0');
+                const hexInstruction = "0x" + line.binaryInstruction.toString(16).padStart(8, '0');
+                console.log(`${line.sourceLine}\t\t${line.basicInstruction}\t\t${hexAddress}\t${hexInstruction}`);
+            }
+            console.log("-");
+        }*/
     }
     assemble(program, memory, registers) {
         const lines = program.split('\n');
         for (let i = 0; i < lines.length; i++) {
             this.assembleLine(i + 1, lines[i], memory, registers);
         }
-        this.printInConsole();
+        //this.printInConsole();
         memory.printInConsole();
         return this.assembledLines;
     }
@@ -117,15 +127,5 @@ export class Assembler {
     storeInstruction(instruction, memory) {
         memory.store(this.currentTextSegmentAddress, instruction);
         this.currentTextSegmentAddress += 4;
-    }
-    printInConsole() {
-        console.log("- ASSEMBLED LINES -");
-        console.log("Line\tInstruction\t\t\tAddress\t\tBinary");
-        for (const line of this.assembledLines) {
-            const hexAddress = "0x" + line.address.toString(16).padStart(8, '0');
-            const hexInstruction = "0x" + line.binaryInstruction.toString(16).padStart(8, '0');
-            console.log(`${line.sourceLine}\t\t${line.basicInstruction}\t\t${hexAddress}\t${hexInstruction}`);
-        }
-        console.log("-");
     }
 }
