@@ -1,6 +1,7 @@
 import { editor, updateEditor } from "./editor.js";
 import { updateInterface, vm } from "./app.js";
 import { updateRegisters } from "./registers.js";
+import { updateMemory } from "./memory.js";
 export const buttons = [];
 export const assembleButton = {
     div: document.getElementById('assemble-button'),
@@ -8,6 +9,7 @@ export const assembleButton = {
         vm.assemble(editor.getValue());
         updateEditor();
         updateInterface();
+        updateMemory();
     }
 };
 buttons.push(assembleButton);

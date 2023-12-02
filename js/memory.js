@@ -1,1 +1,27 @@
-export const memoryContainerDiv = document.getElementById('memory-container');
+import { vm } from "./app.js";
+export const memoryDiv = document.getElementById('memory');
+export function updateMemory() {
+    const memory = vm.getMemory();
+    let rows = "";
+    for (const address of Array.from(memory.keys())) {
+        const value = memory.get(address);
+        const hexAddress = "0x" + address.toString(16).padStart(8, '0');
+        const hexValue = "0x" + (value ? value.toString(16).padStart(8, '0') : "00000000");
+        rows += `
+            <div class="row">
+                <div class="row-item address">
+                    ${hexAddress}
+                </div>
+                <div class="row-item value">
+                    ${hexValue}
+                </div>
+            </div>
+        `;
+    }
+    memoryDiv.innerHTML = `
+        <div class="label">Memory</div>
+        <div class="table">
+            ${rows}
+        </div>
+    `;
+}

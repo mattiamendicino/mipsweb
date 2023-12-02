@@ -1,6 +1,7 @@
 import {editor, updateEditor} from "./editor.js";
 import {updateInterface, vm} from "./app.js";
 import {updateRegisters} from "./registers.js";
+import {updateMemory} from "./memory.js";
 
 export type Button = {
     div: HTMLDivElement,
@@ -15,6 +16,7 @@ export const assembleButton: Button = {
         vm.assemble(editor.getValue());
         updateEditor();
         updateInterface();
+        updateMemory();
     }
 }
 buttons.push(assembleButton);

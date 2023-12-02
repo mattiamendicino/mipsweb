@@ -24,8 +24,6 @@ export class Assembler {
         for (let i = 0; i < lines.length; i++) {
             this.assembleLine(i+1, lines[i], memory, registers);
         }
-        //this.printInConsole();
-        memory.printInConsole();
         return this.assembledLines;
     }
 
@@ -134,4 +132,5 @@ export class Assembler {
         }
         console.log("-");
     }*/
+
 }

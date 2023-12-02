@@ -1,5 +1,5 @@
 import { vm } from "./app.js";
-export const registersContainerDiv = document.getElementById('registers-container');
+export const registersDiv = document.getElementById('registers');
 export function updateRegisters() {
     let rows = "";
     let registers = vm.getRegisters();
@@ -35,10 +35,10 @@ export function updateRegisters() {
             </div>
         `;
     }
-    document.getElementById('registers').innerHTML = `
+    registersDiv.innerHTML = `
             <div class="label">Registers</div>
-                <div class="table">
-                    ${rows}
-                </div>
+            <div class="table">
+                ${rows}
+            </div>
         `;
 }

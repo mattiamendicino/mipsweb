@@ -6,8 +6,8 @@ export class VirtualMachine {
 
     private cpu: CPU;
     private state: "edit" | "execute";
-    private assembledLines?: AssembledLine[];
-    private assembledLinesIndex: number = 0;
+    private assembledInstructions?: AssembledLine[];
+    private assembledInstructionsIndex: number = 0;
     private nextInstruction?: number;
 
     constructor() {
@@ -17,30 +17,30 @@ export class VirtualMachine {
 
     assemble(program: string) {
         const assembler = new Assembler();
-        this.assembledLines = assembler.assemble(program, this.cpu.getMemory(), this.cpu.getRegisters());
-        this.nextInstruction = this.assembledLines[0].sourceLine;
+        this.assembledInstructions = assembler.assemble(program, this.cpu.getMemory(), this.cpu.getRegisters());
+        this.nextInstruction = this.assembledInstructions[0].sourceLine;
         this.state = "execute";
     }
 
     run() {
-        while (this.assembledLinesIndex < this.assembledLines!.length) {
+        while (this.assembledInstructionsIndex < this.assembledInstructions!.length) {
             this.runInstruction();
         }
     }
 
     runInstruction() {
-        if (this.assembledLinesIndex >= this.assembledLines!.length) return;
+        if (this.assembledInstructionsIndex >= this.assembledInstructions!.length) return;
         this.cpu.runInstruction();
-        this.assembledLinesIndex++;
-        if (this.assembledLinesIndex >= this.assembledLines!.length) {
+        this.assembledInstructionsIndex++;
+        if (this.assembledInstructionsIndex >= this.assembledInstructions!.length) {
             this.nextInstruction = undefined;
             return;
         }
-        this.nextInstruction = this.assembledLines![this.assembledLinesIndex].sourceLine;
+        this.nextInstruction = this.assembledInstructions![this.assembledInstructionsIndex].sourceLine;
     }
 
     stop() {
-        this.assembledLinesIndex = 0;
+        this.assembledInstructionsIndex = 0;
         this.cpu.clear();
         this.state = "edit";
     }
@@ -57,10 +57,18 @@ export class VirtualMachine {
         return this.cpu.getRegisters().registers.map(register => ({ ...register }));
     }
 
-    getSpecialRegister(registerName: string) {
-        if(registerName === "pc") return { ...this.cpu.getRegisters().pc };
-        if(registerName === "hi") return { ...this.cpu.getRegisters().hi };
-        if(registerName === "lo") return { ...this.cpu.getRegisters().lo };
+    getSpecialRegister(name: string) {
+        if(name === "pc") return { ...this.cpu.getRegisters().pc };
+        if(name === "hi") return { ...this.cpu.getRegisters().hi };
+        if(name === "lo") return { ...this.cpu.getRegisters().lo };
+    }
+
+    getRegisterByName(name: string) {
+       return this.cpu.getRegisters().getByName(name);
+    }
+
+    getMemory() {
+        return this.cpu.getMemoryCopy();
     }
 
 }

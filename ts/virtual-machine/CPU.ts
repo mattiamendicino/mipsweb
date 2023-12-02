@@ -21,6 +21,10 @@ export class CPU {
         return this.memory;
     }
 
+    getMemoryCopy() {
+        return this.memory.get();
+    }
+
     getRegisters() {
         return this.registers;
     }

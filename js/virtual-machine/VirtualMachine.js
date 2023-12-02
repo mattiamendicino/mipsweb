@@ -2,34 +2,34 @@ import { CPU } from "./CPU.js";
 import { Assembler } from "./Assembler.js";
 export class VirtualMachine {
     constructor() {
-        this.assembledLinesIndex = 0;
+        this.assembledInstructionsIndex = 0;
         this.cpu = new CPU();
         this.state = "edit";
     }
     assemble(program) {
         const assembler = new Assembler();
-        this.assembledLines = assembler.assemble(program, this.cpu.getMemory(), this.cpu.getRegisters());
-        this.nextInstruction = this.assembledLines[0].sourceLine;
+        this.assembledInstructions = assembler.assemble(program, this.cpu.getMemory(), this.cpu.getRegisters());
+        this.nextInstruction = this.assembledInstructions[0].sourceLine;
         this.state = "execute";
     }
     run() {
-        while (this.assembledLinesIndex < this.assembledLines.length) {
+        while (this.assembledInstructionsIndex < this.assembledInstructions.length) {
             this.runInstruction();
         }
     }
     runInstruction() {
-        if (this.assembledLinesIndex >= this.assembledLines.length)
+        if (this.assembledInstructionsIndex >= this.assembledInstructions.length)
             return;
         this.cpu.runInstruction();
-        this.assembledLinesIndex++;
-        if (this.assembledLinesIndex >= this.assembledLines.length) {
+        this.assembledInstructionsIndex++;
+        if (this.assembledInstructionsIndex >= this.assembledInstructions.length) {
             this.nextInstruction = undefined;
             return;
         }
-        this.nextInstruction = this.assembledLines[this.assembledLinesIndex].sourceLine;
+        this.nextInstruction = this.assembledInstructions[this.assembledInstructionsIndex].sourceLine;
     }
     stop() {
-        this.assembledLinesIndex = 0;
+        this.assembledInstructionsIndex = 0;
         this.cpu.clear();
         this.state = "edit";
     }
@@ -42,12 +42,18 @@ export class VirtualMachine {
     getRegisters() {
         return this.cpu.getRegisters().registers.map(register => (Object.assign({}, register)));
     }
-    getSpecialRegister(registerName) {
-        if (registerName === "pc")
+    getSpecialRegister(name) {
+        if (name === "pc")
             return Object.assign({}, this.cpu.getRegisters().pc);
-        if (registerName === "hi")
+        if (name === "hi")
             return Object.assign({}, this.cpu.getRegisters().hi);
-        if (registerName === "lo")
+        if (name === "lo")
             return Object.assign({}, this.cpu.getRegisters().lo);
+    }
+    getRegisterByName(name) {
+        return this.cpu.getRegisters().getByName(name);
+    }
+    getMemory() {
+        return this.cpu.getMemoryCopy();
     }
 }
