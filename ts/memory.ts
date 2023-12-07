@@ -16,10 +16,10 @@ export function updateMemory() {
 
         rows += `
             <div class="row">
-                <div class="row-item address">
+                <div class="col address">
                     ${hexAddress}
                 </div>
-                <div class="row-item value">
+                <div class="col value">
                     ${hexValue}
                 </div>
             </div>
@@ -28,10 +28,10 @@ export function updateMemory() {
     }
 
     memoryDiv.innerHTML = `
-        <div class="label">Memory</div>
-        <div class="table">
+        <div class="title">Memory</div>
+        <div class="table-container"><div class="table">
             ${rows}
-        </div>
+        </div></div>
     `;
 
 }

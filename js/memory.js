@@ -9,19 +9,19 @@ export function updateMemory() {
         const hexValue = "0x" + (value ? value.toString(16).padStart(8, '0') : "00000000");
         rows += `
             <div class="row">
-                <div class="row-item address">
+                <div class="col address">
                     ${hexAddress}
                 </div>
-                <div class="row-item value">
+                <div class="col value">
                     ${hexValue}
                 </div>
             </div>
         `;
     }
     memoryDiv.innerHTML = `
-        <div class="label">Memory</div>
-        <div class="table">
+        <div class="title">Memory</div>
+        <div class="table-container"><div class="table">
             ${rows}
-        </div>
+        </div></div>
     `;
 }

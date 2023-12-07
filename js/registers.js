@@ -21,24 +21,24 @@ export function updateRegisters() {
             number = `${i}`;
         rows += `
             <div class="row">
-                <div class="row-item name">
+                <div class="col name">
                     ${register.name}
                 </div>
                 <!--
-                <div class="row-item number">
+                <div class="col number">
                     ${number}
                 </div>
                 -->
-                <div class="row-item value">
+                <div class="col value">
                     ${register.value}
                 </div>
             </div>
         `;
     }
     registersDiv.innerHTML = `
-            <div class="label">Registers</div>
-            <div class="table">
+            <div class="title">Registers</div>
+            <div class="table-container"><div class="table">
                 ${rows}
-            </div>
+            </div></div>
         `;
 }

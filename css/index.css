@@ -1,236 +1,204 @@
 body {
   margin: 0;
-  font-family: "Prompt", sans-serif;
-  color: rgba(0, 0, 0, 0.75);
-  background-color: rgba(0, 0, 0, 0.05);
   opacity: 0;
-  transition: opacity 0.5s ease;
+  font-family: "Prompt", sans-serif;
+  transition: opacity 0.5s;
 }
 #header-container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  height: 63px;
 }
 #header-container #header {
   width: 100%;
   height: 100%;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
-#header-container #header #buttons-container {
+#header-container #header .buttons-container {
   position: absolute;
   top: 0;
   right: 0;
-  height: 64px;
+  bottom: 0;
+  left: 50%;
+}
+#header-container #header .buttons-container .buttons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
-#header-container #header #buttons-container #buttons {
-  margin: 0 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#header-container #header #buttons-container #buttons .button {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  padding: 6px 12px;
-  margin: 6px;
-  user-select: none;
-  cursor: pointer;
-  display: none;
-}
-#header-container #header #buttons-container #buttons .button:active {
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.65);
-}
-#content-container {
+#editor-container {
   position: absolute;
   top: 64px;
   left: 0;
-  right: 0;
-  bottom: 0;
-}
-#content-container #content {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-  overflow: scroll;
-}
-#content-container #content #editor-container {
-  position: absolute;
-  top: 0;
-  left: 0;
   bottom: 0;
   width: 80%;
-  transition: width 0.5s ease;
+  transition: width 0.5s;
   z-index: 1;
 }
-#content-container #content #editor-container #editor {
+#editor-container #editor {
   position: absolute;
-  top: 6px;
-  left: 6px;
+  top: 12px;
+  left: 12px;
   right: 6px;
-  bottom: 6px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  bottom: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
-#content-container #content #editor-container #editor .next-instruction {
+#editor-container #editor .next-instruction {
   position: absolute;
   background-color: rgba(255, 255, 128, 0.75);
 }
-#content-container #content #editor-overlay-container {
+#editor-overlay-container {
   position: absolute;
-  top: 0;
+  top: 64px;
   left: 0;
   bottom: 0;
-  width: 40%;
+  width: calc(80%/2);
   z-index: 2;
 }
-#content-container #content #editor-overlay-container #editor-overlay {
+#editor-overlay-container #editor-overlay {
   position: absolute;
-  top: 6px;
-  left: 6px;
+  top: 12px;
+  left: 12px;
   right: 6px;
-  bottom: 6px;
+  bottom: 12px;
 }
-#content-container #content #memory-container {
+#registers-container {
   position: absolute;
-  top: 0;
-  left: 40%;
-  bottom: 0;
-  width: 40%;
-  z-index: 0;
-}
-#content-container #content #memory-container #memory {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-  background-color: white;
-}
-#content-container #content #memory-container #memory .label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 48px;
-  font-size: 18px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 12px;
-}
-#content-container #content #memory-container #memory .table {
-  position: absolute;
-  top: 48px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 0 12px 12px;
-  background-color: white;
-}
-#content-container #content #memory-container #memory .table .row {
-  width: 100%;
-  height: 18px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-#content-container #content #memory-container #memory .table .row:last-child {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-#content-container #content #memory-container #memory .table .row .row-item {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-}
-#content-container #content #memory-container #memory .table .row .row-item.address {
-  width: 50%;
-  justify-content: flex-start;
-  overflow: auto;
-}
-#content-container #content #memory-container #memory .table .row .row-item.value {
-  width: 50%;
-  justify-content: flex-start;
-  overflow: auto;
-}
-#content-container #content #registers-container {
-  position: absolute;
-  top: 0;
+  top: 64px;
   left: 80%;
   bottom: 0;
   right: 0;
   z-index: 0;
 }
-#content-container #content #registers-container #registers {
+#registers-container #registers {
+  position: absolute;
+  top: 12px;
+  left: 6px;
+  right: 12px;
+  bottom: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+#registers-container #registers .table-container {
+  position: absolute;
+  top: 32px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#registers-container #registers .table-container .table {
+  top: 0;
+}
+#registers-container #registers .table-container .table .row {
+  height: calc(100% / 35);
+}
+#registers-container #registers .table-container .table .row .col {
+  width: calc(100% / 2);
+  display: flex;
+  align-items: center;
+}
+#registers-container #registers .table-container .table .row .col.name {
+  justify-content: flex-start;
+}
+#registers-container #registers .table-container .table .row .col.value {
+  justify-content: flex-end;
+}
+#memory-container {
+  position: absolute;
+  top: 64px;
+  left: calc(80%/2);
+  bottom: 0;
+  width: 40%;
+  z-index: 0;
+}
+#memory-container #memory {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 12px;
+  left: 6px;
+  right: 6px;
+  bottom: 12px;
+}
+#memory-container #memory .table-container {
+  position: absolute;
+  top: 32px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#memory-container #memory .table-container .table {
+  top: 0;
+}
+#memory-container #memory .table-container .table .row {
+  height: calc(100% / 35);
+}
+#memory-container #memory .table-container .table .row .col {
+  width: calc(100% / 5);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.buttons {
   position: absolute;
   top: 6px;
   left: 6px;
   right: 6px;
   bottom: 6px;
+}
+.buttons .button {
+  padding: 6px 12px;
+  margin: 6px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  user-select: none;
+  cursor: pointer;
+  display: none;
+}
+.buttons .button:active {
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.65);
+}
+.title {
+  width: 100%;
+  height: 32px;
+  padding-left: 12px;
+  box-sizing: border-box;
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.table {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
-  background-color: white;
+  font-size: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
-#content-container #content #registers-container #registers::-webkit-scrollbar {
+.table::-webkit-scrollbar {
   display: none;
 }
-#content-container #content #registers-container #registers .label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 48px;
-  font-size: 18px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 12px;
-}
-#content-container #content #registers-container #registers .table {
-  position: absolute;
-  top: 48px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 0 12px 12px;
-}
-#content-container #content #registers-container #registers .table .row {
+.table .row {
   width: 100%;
-  height: 18px;
+  height: 20px;
+  min-height: 20px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
-#content-container #content #registers-container #registers .table .row:last-child {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+.table .row .col {
+  padding: 0 6px;
 }
-#content-container #content #registers-container #registers .table .row .row-item {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-}
-#content-container #content #registers-container #registers .table .row .row-item.name {
-  width: 50%;
-  justify-content: flex-start;
-  overflow: visible;
-}
-#content-container #content #registers-container #registers .table .row .row-item.number {
-  width: 0;
-  justify-content: center;
-}
-#content-container #content #registers-container #registers .table .row .row-item.value {
-  width: 50%;
-  justify-content: flex-end;
-  overflow: hidden;
+.table .row:first-child {
+  border-top: none;
 }
