@@ -17,7 +17,7 @@
     <div id="stop-button" class="button">Stop</div>
   </div></div>
 </div></div>
-<div id="editor-container"><div id="editor" class="margin-box">
+<div id="editor-container"><div id="editor">
   .text
 
   .globl main
@@ -33,41 +33,8 @@
   add  $t7, $t6, $t2  # 1 + 2 = 3  -> $t7
   addi $s0, $t7, 7    # 3 + 7 = 10 -> $s0
 </div></div>
-<div id="editor-overlay-container"><div id="editor-overlay" class="margin-box"></div></div>
-<div id="memory-container"><div id="memory" class="margin-box">
-  <div class="title">Memory</div>
-  <div class="table-container"><div class="table">
-
-    <div class="row">
-      <div class="col memory-areas">STACK</div>
-      <div class="col registers">$sp</div>
-      <div class="col address">0x7FFFEFFC</div>
-      <div class="col value">0x00000000</div>
-    </div>
-
-    <div class="row">
-      <div class="col memory-areas">HEAP</div>
-      <div class="col registers"></div>
-      <div class="col address">0x10040000</div>
-      <div class="col value">0x00000000</div>
-    </div>
-
-    <div class="row">
-      <div class="col memory-areas">DATA</div>
-      <div class="col registers"></div>
-      <div class="col address">0x10010000</div>
-      <div class="col value">0x00000000</div>
-    </div>
-
-    <div class="row">
-      <div class="col memory-areas"></div>
-      <div class="col registers">$gp</div>
-      <div class="col address">0x10008000</div>
-      <div class="col value">0x00000000</div>
-    </div>
-
-  </div></div>
-</div></div>
+<div id="editor-overlay-container"><div id="editor-overlay"></div></div>
+<div id="memory-container"><div id="memory"></div></div>
 <div id="registers-container"><div id="registers"></div></div>
 
 <script src="./lib/ace-editor/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
