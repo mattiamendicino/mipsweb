@@ -1,6 +1,6 @@
 import {word} from "./Memory.js";
 
-export type Register = {
+export type register = {
     name: string,
     number?: word | undefined,
     value: word;
@@ -8,7 +8,7 @@ export type Register = {
 
 export class Registers {
 
-    private defaultRegisters: Register[] = [
+    private defaultRegisters: register[] = [
                                     { name: '$zero', number: 0,  value: 0 },
                                     { name: '$at',   number: 1,  value: 0 },
                                     { name: '$v0',   number: 2,  value: 0 },
@@ -42,14 +42,14 @@ export class Registers {
                                     { name: '$fp',   number: 30, value: 0 },
                                     { name: '$ra',   number: 31, value: 0 }
     ];
-    private defaultPc: Register =   { name: "pc",                value: 4194304};
-    private defaultHi: Register =   { name: "hi",                value: 0};
-    private defaultLo: Register =   { name: "lo",                value: 0};
+    private defaultPc: register =   { name: "pc",                value: 4194304};
+    private defaultHi: register =   { name: "hi",                value: 0};
+    private defaultLo: register =   { name: "lo",                value: 0};
 
-    registers: Register[];
-    pc: Register;
-    hi: Register;
-    lo: Register;
+    registers: register[];
+    pc: register;
+    hi: register;
+    lo: register;
 
     constructor() {
         this.registers = this.defaultRegisters.map(register => ({ ...register }));

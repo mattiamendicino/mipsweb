@@ -1,7 +1,7 @@
 import {Registers} from "./Registers.js";
 import {word} from "./Memory.js";
 
-export type Instruction = {
+export type instruction = {
     format?: 'R' | 'I' | 'J';
     type?: "ALU" | "LOAD" | "STORE" | "BRANCH" | "JUMP";
     opcode?: word;
@@ -11,7 +11,7 @@ export type Instruction = {
 
 export class InstructionSet {
 
-    private static instructions: Map<string, Instruction> = new Map<string, Instruction>([
+    private static instructions: Map<string, instruction> = new Map<string, instruction>([
         ["add", { format: 'R', type: "ALU", opcode: 0x00, funct: 0x20,
             run: (registersObject: Registers, rs: word, rt: word, rd: word) => {
                 const registers = registersObject.registers;
@@ -41,12 +41,12 @@ export class InstructionSet {
         }],
     ]);
 
-    static get(name: string): Instruction | undefined {
+    static get(name: string): instruction | undefined {
         const instruction = this.instructions.get(name);
         if (!instruction) {
             return undefined;
         }
-        let copy: Instruction = {};
+        let copy: instruction = {};
         if (instruction.format) {
             copy.format = instruction.format;
         }
@@ -67,7 +67,7 @@ export class InstructionSet {
         return copy;
     }
 
-    static getByFunct(funct: word): Instruction {
+    static getByFunct(funct: word): instruction {
         for(const instructionName of this.instructions.keys()) {
             const instruction = this.instructions.get(instructionName)!;
             if (instruction.funct === funct) {
@@ -78,7 +78,7 @@ export class InstructionSet {
         throw new Error(``);
     }
 
-    static getByOpcode(opcode: word): Instruction {
+    static getByOpcode(opcode: word): instruction {
         if (opcode === 0x00) throw new Error(``);
         for(const instructionName of this.instructions.keys()) {
             const instruction = this.instructions.get(instructionName)!;

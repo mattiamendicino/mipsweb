@@ -27,6 +27,7 @@ export const runButton = {
     div: document.getElementById('run-button'),
     onClick: () => {
         vm.run();
+        updateMemory();
         updateEditor();
         updateRegisters();
     }
@@ -36,6 +37,7 @@ export const runInstructionButton = {
     div: document.getElementById('runInstruction-button'),
     onClick: () => {
         vm.runInstruction();
+        updateMemory();
         updateEditor();
         updateRegisters();
     }

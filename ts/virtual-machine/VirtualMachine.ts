@@ -1,12 +1,12 @@
 import {CPU} from "./CPU.js";
-import {AssembledLine, Assembler} from "./Assembler.js";
+import {assembledLine, Assembler} from "./Assembler.js";
 
 
 export class VirtualMachine {
 
     private cpu: CPU;
     private state: "edit" | "execute";
-    private assembledInstructions?: AssembledLine[];
+    private assembledInstructions?: assembledLine[];
     private assembledInstructionsIndex: number = 0;
     private nextInstruction?: number;
 

@@ -1,9 +1,9 @@
 import {Memory, word} from "./Memory.js";
-import {Register, Registers} from "./Registers.js";
-import {Directive, Directives} from "./Directives.js";
-import {Instruction, InstructionSet} from "./InstructionSet.js";
+import {register, Registers} from "./Registers.js";
+import {directive, Directives} from "./Directives.js";
+import {instruction, InstructionSet} from "./InstructionSet.js";
 
-export type AssembledLine = {
+export type assembledLine = {
     sourceLine: number,
     basicInstruction: string,
     binaryInstruction: word,
@@ -12,8 +12,8 @@ export type AssembledLine = {
 
 export class Assembler {
 
-    private assembledLines: AssembledLine[] = [];
-    private currentDirective: Directive = Directives.get(".text")!;
+    private assembledLines: assembledLine[] = [];
+    private currentDirective: directive = Directives.get(".text")!;
     private startTextSegmentAddress: word = Memory.word(0x00400000);
     private startDataSegmentAddress: word = Memory.word(0x10010000);
     private currentTextSegmentAddress: number = this.startTextSegmentAddress;
@@ -68,15 +68,15 @@ export class Assembler {
         }
     }
 
-    private assembleR(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory, registers: Registers) {
+    private assembleR(lineNumber: number, lineParts: string[], instruction: instruction, memory: Memory, registers: Registers) {
         if (!registers.getByName(lineParts[1])) throw new Error(``);
-        const rd: Register = registers.getByName(lineParts[1])!;
+        const rd: register = registers.getByName(lineParts[1])!;
         if (!registers.getByName(lineParts[2])) throw new Error(``);
-        const rs: Register = registers.getByName(lineParts[2])!;
+        const rs: register = registers.getByName(lineParts[2])!;
         if (!registers.getByName(lineParts[3])) throw new Error(``);
-        const rt: Register = registers.getByName(lineParts[3])!;
+        const rt: register = registers.getByName(lineParts[3])!;
         const binary: word = (instruction.opcode! << 26) | (rs.number! << 21) | (rt.number! << 16) | (rd.number! << 11) | (0x00 << 6) | instruction.funct!;
-        const assembledLine: AssembledLine = {
+        const assembledLine: assembledLine = {
             sourceLine: lineNumber,
             basicInstruction: lineParts.join(' '),
             binaryInstruction: binary,
@@ -86,14 +86,14 @@ export class Assembler {
         this.storeInstruction(binary, memory);
     }
 
-    private assembleI(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory, registers: Registers) {
+    private assembleI(lineNumber: number, lineParts: string[], instruction: instruction, memory: Memory, registers: Registers) {
         if (!registers.getByName(lineParts[1])) throw new Error(``);
-        const rt: Register = registers.getByName(lineParts[1])!;
+        const rt: register = registers.getByName(lineParts[1])!;
         if (!registers.getByName(lineParts[2])) throw new Error(``);
-        const rs: Register = registers.getByName(lineParts[2])!;
+        const rs: register = registers.getByName(lineParts[2])!;
         const immediate: word = Memory.word(Number(lineParts[3]));
         const binary: word = (instruction.opcode! << 26) | (rs.number! << 21) | (rt.number! << 16) | immediate;
-        const assembledLine: AssembledLine = {
+        const assembledLine: assembledLine = {
             sourceLine: lineNumber,
             basicInstruction: lineParts.join(' '),
             binaryInstruction: binary,
@@ -103,10 +103,10 @@ export class Assembler {
         this.storeInstruction(binary, memory);
     }
 
-    private assembleJ(lineNumber: number, lineParts: string[], instruction: Instruction, memory: Memory) {
+    private assembleJ(lineNumber: number, lineParts: string[], instruction: instruction, memory: Memory) {
         const address: word = Memory.word(Number(lineParts[1]));
         const binary: word = (instruction.opcode! << 26) | address;
-        const assembledLine: AssembledLine = {
+        const assembledLine: assembledLine = {
             sourceLine: lineNumber,
             basicInstruction: lineParts.join(' '),
             binaryInstruction: binary,

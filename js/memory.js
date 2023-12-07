@@ -2,13 +2,49 @@ import { vm } from "./app.js";
 export const memoryDiv = document.getElementById('memory');
 export function updateMemory() {
     const memory = vm.getMemory();
-    let rows = "";
+    const memoryLines = [];
     for (const address of Array.from(memory.keys())) {
         const value = memory.get(address);
-        const hexAddress = "0x" + address.toString(16).padStart(8, '0');
-        const hexValue = "0x" + (value ? value.toString(16).padStart(8, '0') : "00000000");
+        let memoryArea = undefined;
+        if (address >= 0x00400000 && address < 0x10000000) {
+            memoryArea = "Text Segment";
+        }
+        else if (address >= 0x10000000 && address < 0x10040000) {
+            memoryArea = "Data Segment";
+        }
+        else if (address >= 0x10040000 && address < 0x7FFFFFFC) {
+            memoryArea = "Stack / Heap";
+        }
+        let registers = [];
+        if (address == vm.getSpecialRegister("pc").value)
+            registers.push("pc");
+        if (address == vm.getRegisterByName("$gp").value)
+            registers.push("$gp");
+        if (address == vm.getRegisterByName("$sp").value)
+            registers.push("$sp");
+        memoryLines.push({
+            memoryArea: memoryArea,
+            registers: registers,
+            address: address,
+            value: value
+        });
+    }
+    let rows = "";
+    for (const memoryLine of memoryLines) {
+        const hexAddress = "0x" + memoryLine.address.toString(16).padStart(8, '0');
+        const hexValue = "0x" + (memoryLine.value ? memoryLine.value.toString(16).padStart(8, '0') : "00000000");
+        let registersHTML = "";
+        for (const register of memoryLine.registers) {
+            registersHTML += `<div class="register ${register}">${register}</div>`;
+        }
         rows += `
             <div class="row">
+                <div class="col memory-area">
+                    ${memoryLine.memoryArea}
+                </div>
+                <div class="col registers">
+                    ${registersHTML}
+                </div>
                 <div class="col address">
                     ${hexAddress}
                 </div>

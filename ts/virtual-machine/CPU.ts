@@ -1,6 +1,6 @@
 import {Memory, word} from "./Memory.js";
 import {Registers} from "./Registers.js";
-import {Instruction, InstructionSet} from "./InstructionSet.js";
+import {instruction, InstructionSet} from "./InstructionSet.js";
 
 export class CPU {
 
@@ -57,21 +57,21 @@ export class CPU {
         return (word << (31 - to)) >>> (31 - to + from);
     }
 
-    private runInstructionR(binary: word, instruction: Instruction) {
+    private runInstructionR(binary: word, instruction: instruction) {
             const rs = CPU.getBits(binary, 25, 21);
             const rt = CPU.getBits(binary, 20, 16);
             const rd = CPU.getBits(binary, 15, 11);
             instruction.run!(this.registers, rs, rt, rd);
     }
 
-    private runInstructionI(binary: word, instruction: Instruction) {
+    private runInstructionI(binary: word, instruction: instruction) {
             const rs = CPU.getBits(binary, 25, 21);
             const rt = CPU.getBits(binary, 20, 16);
             const immediate = CPU.getBits(binary, 15, 0);
             instruction.run!(this.registers, rs, rt, immediate);
     }
 
-    private runInstructionJ(binary: word, instruction: Instruction) {
+    private runInstructionJ(binary: word, instruction: instruction) {
             const address = CPU.getBits(binary, 25, 0);
             instruction.run!(this.registers, address);
     }

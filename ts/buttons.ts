@@ -36,6 +36,7 @@ export const runButton: Button = {
     div: document.getElementById('run-button')! as HTMLDivElement,
     onClick: () => {
         vm.run();
+        updateMemory();
         updateEditor();
         updateRegisters();
     }
@@ -46,6 +47,7 @@ export const runInstructionButton: Button = {
     div: document.getElementById('runInstruction-button')! as HTMLDivElement,
     onClick: () => {
         vm.runInstruction();
+        updateMemory();
         updateEditor();
         updateRegisters();
     }

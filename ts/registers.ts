@@ -1,4 +1,4 @@
-import {Register} from "./virtual-machine/Registers.js";
+import {register} from "./virtual-machine/Registers.js";
 import {vm} from "./app.js";
 
 export const registersDiv = document.getElementById('registers')!;
@@ -7,7 +7,7 @@ export function updateRegisters() {
     let rows = "";
     let registers = vm.getRegisters();
     for (let i = 0; i < registers.length + 3; i++) {
-        let register: Register;
+        let register: register;
         if (i < registers.length) {
             register = registers[i];
         } else {
