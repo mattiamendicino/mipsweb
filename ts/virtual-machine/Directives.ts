@@ -1,31 +1,40 @@
 import {Memory} from "./Memory.js";
 import {Registers} from "./Registers.js";
+import {Assembler} from "./Assembler.js";
 
 export type directive = {
-    segment?: boolean,
-    assemble?(line: string, memory: Memory, registers: Registers): void;
+    isSection?: boolean,
+    assemble?(lineNumber: number, parts: string[], memory: Memory, registers: Registers, assembler: Assembler): void;
 }
 
 export class Directives {
 
     private static directives: Map<string, directive> = new Map<string, directive>([
         [".data", {
-            segment: true
+            isSection: true,
+            assemble(lineNumber: number, parts: string[], memory: Memory, registers: Registers, assembler: Assembler) {
+                assembler.assembleData(lineNumber, parts, memory, registers);
+            }
         }],
         [".text", {
-            segment: true
+            isSection: true,
+            assemble(lineNumber: number, parts: string[], memory: Memory, registers: Registers, assembler: Assembler) {
+                assembler.assembleInstruction(lineNumber, parts, memory, registers);
+            }
         }],
         [".align", {
-            assemble(line: string, memory: Memory, registers: Registers) {
+            assemble(lineNumber: number, parts: string[], memory: Memory, registers: Registers, assembler: Assembler) {
+                console.log(".align", parts);
             }
         }],
         [".space", {
-            assemble(line: string, memory: Memory, registers: Registers) {
-
+            assemble(lineNumber: number, parts: string[], memory: Memory, registers: Registers, assembler: Assembler) {
+                console.log(".space", parts);
             }
         }],
         [".globl", {
-            assemble(line: string, memory: Memory, registers: Registers) {
+            assemble(lineNumber: number, parts: string[], memory: Memory, registers: Registers, assembler: Assembler) {
+                console.log(".globl", parts);
             }
         }],
     ]);
@@ -36,10 +45,10 @@ export class Directives {
             return undefined;
         }
         let copy: directive = {};
-        copy.segment = directive.segment;
+        copy.isSection = directive.isSection;
         if (directive.assemble) {
-            copy.assemble = (line: string, memory: Memory, registers: Registers) => {
-                directive.assemble!(line, memory, registers);
+            copy.assemble = (lineNumber: number, parts: string[], memory: Memory, registers: Registers, assembler: Assembler) => {
+                directive.assemble!(lineNumber, parts, memory, registers, assembler);
             };
         }
         return copy;

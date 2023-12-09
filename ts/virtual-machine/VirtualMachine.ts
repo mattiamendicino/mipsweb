@@ -18,7 +18,9 @@ export class VirtualMachine {
     assemble(program: string) {
         const assembler = new Assembler();
         this.assembledInstructions = assembler.assemble(program, this.cpu.getMemory(), this.cpu.getRegisters());
-        this.nextInstruction = this.assembledInstructions[0].sourceLine;
+        if (this.assembledInstructions.length > 0) {
+            this.nextInstruction = this.assembledInstructions[0].sourceLine;
+        }
         this.state = "execute";
     }
 

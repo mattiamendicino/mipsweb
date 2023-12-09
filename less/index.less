@@ -1,6 +1,6 @@
 @box-shadow-dark: 0 0 8px rgba(0, 0, 0, 0.1);
 @space: 6px;
-@pc-color: rgba(50, 173, 230, 0.25);
+@pc-color: rgb(50, 173, 230);
 
 body {
   margin: 0;
@@ -55,10 +55,10 @@ body {
     box-sizing: border-box;
     .next-instruction {
       position: absolute;
-      background-color: @pc-color;
+      background-color: rgba(@pc-color, 0.125);
     }
     .breakpoint {
-      background-color: @pc-color;
+      background-color: rgba(@pc-color, 0.5);
     }
   }
 }
@@ -167,7 +167,7 @@ body {
                 justify-content: center;
                 border-radius: 4px;
                 &.pc {
-                  background-color: @pc-color;
+                  background-color: rgba(@pc-color, 0.5);
                 }
               }
             }

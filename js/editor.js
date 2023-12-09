@@ -16,14 +16,12 @@ export function updateEditor() {
         for (let i = 0; i < cursors.length; i++) {
             cursors[i].style.display = "block";
         }
-        /*
         let markers = editor.session.getMarkers(false);
         for (let i in markers) {
             if (markers[i].clazz === "next-instruction") {
                 editor.session.removeMarker(markers[i].id);
             }
         }
-         */
         editor.session.clearBreakpoints();
     }
     else if (vmState === "execute") {
@@ -36,19 +34,16 @@ export function updateEditor() {
             cursors[i].style.display = "none";
         }
         const nextInstructionLine = vm.getNextInstructionLine();
-        /*
         let markers = editor.session.getMarkers(false);
         for (let i in markers) {
             if (markers[i].clazz === "next-instruction") {
                 editor.session.removeMarker(markers[i].id);
             }
         }
-         */
         editor.session.clearBreakpoints();
         if (nextInstructionLine) {
-            //let Range = ace.require('ace/range').Range,
-            //    range = new Range(nextInstructionLine - 1, 0, nextInstructionLine - 1, Infinity);
-            //editor.session.addMarker(range, "next-instruction", "fullLine", false);
+            let Range = ace.require('ace/range').Range, range = new Range(nextInstructionLine - 1, 0, nextInstructionLine - 1, Infinity);
+            editor.session.addMarker(range, "next-instruction", "fullLine", false);
             editor.session.setBreakpoint(nextInstructionLine - 1, "breakpoint");
         }
     }

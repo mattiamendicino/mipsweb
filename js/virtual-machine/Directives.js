@@ -5,10 +5,10 @@ export class Directives {
             return undefined;
         }
         let copy = {};
-        copy.segment = directive.segment;
+        copy.isSection = directive.isSection;
         if (directive.assemble) {
-            copy.assemble = (line, memory, registers) => {
-                directive.assemble(line, memory, registers);
+            copy.assemble = (lineNumber, parts, memory, registers, assembler) => {
+                directive.assemble(lineNumber, parts, memory, registers, assembler);
             };
         }
         return copy;
@@ -16,21 +16,30 @@ export class Directives {
 }
 Directives.directives = new Map([
     [".data", {
-            segment: true
+            isSection: true,
+            assemble(lineNumber, parts, memory, registers, assembler) {
+                assembler.assembleData(lineNumber, parts, memory, registers);
+            }
         }],
     [".text", {
-            segment: true
+            isSection: true,
+            assemble(lineNumber, parts, memory, registers, assembler) {
+                assembler.assembleInstruction(lineNumber, parts, memory, registers);
+            }
         }],
     [".align", {
-            assemble(line, memory, registers) {
+            assemble(lineNumber, parts, memory, registers, assembler) {
+                console.log(".align", parts);
             }
         }],
     [".space", {
-            assemble(line, memory, registers) {
+            assemble(lineNumber, parts, memory, registers, assembler) {
+                console.log(".space", parts);
             }
         }],
     [".globl", {
-            assemble(line, memory, registers) {
+            assemble(lineNumber, parts, memory, registers, assembler) {
+                console.log(".globl", parts);
             }
         }],
 ]);

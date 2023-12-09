@@ -49,10 +49,10 @@ body {
 }
 #editor-container #editor .next-instruction {
   position: absolute;
-  background-color: rgba(50, 173, 230, 0.25);
+  background-color: rgba(50, 173, 230, 0.125);
 }
 #editor-container #editor .breakpoint {
-  background-color: rgba(50, 173, 230, 0.25);
+  background-color: rgba(50, 173, 230, 0.5);
 }
 #editor-overlay-container {
   position: absolute;
@@ -164,7 +164,7 @@ body {
   border-radius: 4px;
 }
 #memory-container #memory .table-container .table .row .col.registers .register.pc {
-  background-color: rgba(50, 173, 230, 0.25);
+  background-color: rgba(50, 173, 230, 0.5);
 }
 .buttons {
   position: absolute;

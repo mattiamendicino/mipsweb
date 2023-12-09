@@ -34,17 +34,15 @@ export class Assembler {
         }
         const directive = Directives.get(parts[0]);
         if (directive) {
-            if (directive.segment) {
+            if (directive.isSection) {
                 this.currentDirective = directive!;
             } else {
-                directive.assemble!(line, memory, registers);
+                directive.assemble!(lineNumber, parts, memory, registers, this);
             }
-        } else {
-            this.assembleInstruction(lineNumber, parts, memory, registers);
-        }
+        } else if (this.currentDirective) this.currentDirective.assemble!(lineNumber, parts, memory, registers, this);
     }
 
-    private assembleInstruction(lineNumber: number, lineParts: string[], memory: Memory, registers: Registers) {
+    assembleInstruction(lineNumber: number, lineParts: string[], memory: Memory, registers: Registers) {
         const instruction = InstructionSet.get(lineParts[0]);
         if (instruction) {
             switch(instruction.format) {
@@ -121,16 +119,24 @@ export class Assembler {
         this.currentTextSegmentAddress += 4;
     }
 
+    private storeData(data: word, memory: Memory) {
+        memory.store(this.currentDataSegmentAddress, data);
+        this.currentDataSegmentAddress += 4;
+    }
 
-    /*private printInConsole() {
-        console.log("- ASSEMBLED LINES -");
-        console.log("Line\tInstruction\t\t\tAddress\t\tBinary");
-        for (const line of this.assembledLines) {
-            const hexAddress = "0x" + line.address.toString(16).padStart(8, '0');
-            const hexInstruction = "0x" + line.binaryInstruction.toString(16).padStart(8, '0');
-            console.log(`${line.sourceLine}\t\t${line.basicInstruction}\t\t${hexAddress}\t${hexInstruction}`);
+    assembleData(lineNumber: number, parts: string[], memory: Memory, registers: Registers) {
+        if (parts.length > 1) {
+            for (let i = 0; i < parts.length; i++) {
+                this.assembleData(lineNumber, [parts[i]], memory, registers);
+            }
+        } else if (parts.length === 1) {
+            const binary = this.toBinary(parts[0]);
+            this.storeData(Memory.word(binary), memory);
         }
-        console.log("-");
-    }*/
+    }
 
+    private toBinary(data: string): word {
+        //TO-DO: Gestire diversi tipi di dati
+        return Number(data);
+    }
 }
