@@ -16,10 +16,11 @@ export class Memory {
         return this.memory.get(Memory.word(address));
     }
     get() {
-        const copy = new Map();
-        for (const address of Array.from(this.memory.keys())) {
-            copy.set(address, this.memory.get(address));
+        const sortedKeys = Array.from(this.memory.keys()).sort((a, b) => b - a);
+        const sortedMemory = new Map();
+        for (const key of sortedKeys) {
+            sortedMemory.set(key, this.memory.get(key));
         }
-        return copy;
+        return sortedMemory;
     }
 }

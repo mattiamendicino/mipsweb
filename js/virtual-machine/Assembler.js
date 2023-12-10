@@ -15,6 +15,8 @@ export class Assembler {
         for (let i = 0; i < lines.length; i++) {
             this.assembleLine(i + 1, lines[i], memory, registers);
         }
+        memory.store(registers.getByName("$gp").value, 0);
+        memory.store(registers.getByName("$sp").value, 0);
         return this.assembledLines;
     }
     assembleLine(lineNumber, line, memory, registers) {

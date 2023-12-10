@@ -22,11 +22,12 @@ export class Memory {
     }
 
     get() {
-        const copy = new Map<word, word>();
-        for (const address of Array.from(this.memory.keys())) {
-            copy.set(address, this.memory.get(address)!);
+        const sortedKeys = Array.from(this.memory.keys()).sort((a, b) => b - a);
+        const sortedMemory = new Map<word, word>();
+        for (const key of sortedKeys) {
+            sortedMemory.set(key, this.memory.get(key)!);
         }
-        return copy;
+        return sortedMemory;
     }
 
 }

@@ -35,7 +35,12 @@ export function updateMemory() {
         const hexValue = "0x" + (memoryLine.value ? memoryLine.value.toString(16).padStart(8, '0') : "00000000");
         let registersHTML = "";
         for (const register of memoryLine.registers) {
-            registersHTML += `<div class="register ${register}">${register}</div>`;
+            if (register.charAt(0) === "$") {
+                registersHTML += `<div class="register ${register.substring(1)}">${register}</div>`;
+            }
+            else {
+                registersHTML += `<div class="register ${register}">${register}</div>`;
+            }
         }
         rows += `
             <div class="row">
