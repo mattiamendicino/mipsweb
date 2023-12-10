@@ -3,12 +3,14 @@
 @pc-color: rgb(50, 173, 230);
 @gp-color: rgb(192, 192, 192);
 @sp-color: rgb(192, 192, 192);
+@font-size: 12px;
 
 body {
   margin: 0;
   opacity: 0;
-  font-family: "Prompt", sans-serif;
+  font-family: "Monaco", monospace;
   transition: opacity 0.5s;
+  font-size: @font-size;
 }
 
 @header-height: 64px;
@@ -208,20 +210,18 @@ body {
 }
 
 @title-height: 32px;
-@title-font-size: 16px;
 .title {
   width: 100%;
   height: @title-height;
   padding-left: @space*2;
   box-sizing: border-box;
-  font-size: @title-font-size;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-size: @font-size + 2;
 }
 
 @table-row-height: 20px;
-@table-font-size: 14px;
 .table {
   position: absolute;
   top: @space*2;
@@ -231,7 +231,6 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
-  font-size: @table-font-size;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   &::-webkit-scrollbar {

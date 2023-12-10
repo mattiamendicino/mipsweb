@@ -1,8 +1,9 @@
 body {
   margin: 0;
   opacity: 0;
-  font-family: "Prompt", sans-serif;
+  font-family: "Monaco", monospace;
   transition: opacity 0.5s;
+  font-size: 12px;
 }
 #header-container {
   position: absolute;
@@ -197,10 +198,10 @@ body {
   height: 32px;
   padding-left: 12px;
   box-sizing: border-box;
-  font-size: 16px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-size: 14px;
 }
 .table {
   position: absolute;
@@ -211,7 +212,6 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   scrollbar-width: none;
-  font-size: 14px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
