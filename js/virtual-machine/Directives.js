@@ -4,27 +4,20 @@ export class Directives {
         if (!directive) {
             return undefined;
         }
-        let copy = {};
-        copy.isSection = directive.isSection;
-        if (directive.assemble) {
-            copy.assemble = (lineNumber, parts, memory, registers, assembler) => {
+        return {
+            assemble: (lineNumber, parts, memory, registers, assembler) => {
                 directive.assemble(lineNumber, parts, memory, registers, assembler);
-            };
-        }
-        return copy;
+            }
+        };
     }
 }
 Directives.directives = new Map([
     [".data", {
-            isSection: true,
             assemble(lineNumber, parts, memory, registers, assembler) {
+                console.log(".data", parts);
+                if (parts.length > 0 && parts[0] === ".data")
+                    parts = parts.slice(1);
                 assembler.assembleData(lineNumber, parts, memory, registers);
-            }
-        }],
-    [".text", {
-            isSection: true,
-            assemble(lineNumber, parts, memory, registers, assembler) {
-                assembler.assembleInstruction(lineNumber, parts, memory, registers);
             }
         }],
     [".align", {
@@ -37,9 +30,17 @@ Directives.directives = new Map([
                 console.log(".space", parts);
             }
         }],
-    [".globl", {
+    [".asciiz", {
             assemble(lineNumber, parts, memory, registers, assembler) {
-                console.log(".globl", parts);
+                console.log(".asciiz", parts);
             }
         }],
+    [".text", {
+            assemble(lineNumber, parts, memory, registers, assembler) {
+                console.log(".text", parts);
+                if (parts.length > 0 && parts[0] === ".text")
+                    parts = parts.slice(1);
+                assembler.assembleInstruction(lineNumber, parts, memory, registers);
+            }
+        }]
 ]);

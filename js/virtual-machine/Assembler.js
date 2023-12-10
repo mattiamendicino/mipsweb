@@ -22,17 +22,17 @@ export class Assembler {
         if (parts.length === 0 || parts[0] === '') {
             return;
         }
-        const directive = Directives.get(parts[0]);
+        let directive = Directives.get(parts[0]);
         if (directive) {
-            if (directive.isSection) {
+            this.currentDirective = directive;
+        }
+        else {
+            directive = Directives.get(parts[1]);
+            if (directive) {
                 this.currentDirective = directive;
             }
-            else {
-                directive.assemble(lineNumber, parts, memory, registers, this);
-            }
         }
-        else if (this.currentDirective)
-            this.currentDirective.assemble(lineNumber, parts, memory, registers, this);
+        this.currentDirective.assemble(lineNumber, parts, memory, registers, this);
     }
     assembleInstruction(lineNumber, lineParts, memory, registers) {
         const instruction = InstructionSet.get(lineParts[0]);
@@ -131,7 +131,19 @@ export class Assembler {
         }
     }
     toBinary(data) {
-        //TO-DO: Gestire diversi tipi di dati
-        return Number(data);
+        if (data.substring(0, 2) === "0x") {
+            return Memory.word(Number(data));
+        }
+        if ((data.charAt(0) === "'") && ((data.charAt(data.length - 1) === "'"))) {
+            if (data.substring(1, data.length - 1).length > 1)
+                throw new Error(``);
+            return Memory.word(data.charCodeAt(1));
+        }
+        else {
+            const number = Number(data);
+            if (isNaN(number))
+                throw new Error(``);
+            return Memory.word(number);
+        }
     }
 }
