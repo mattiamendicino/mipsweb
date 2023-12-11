@@ -1,8 +1,8 @@
 @box-shadow-dark: 0 0 8px rgba(0, 0, 0, 0.1);
 @space: 6px;
-@pc-color: rgb(50, 173, 230);
-@gp-color: rgb(192, 192, 192);
-@sp-color: rgb(192, 192, 192);
+@text-segment-color: rgb(50, 173, 230);
+@data-segment-color: rgb(192, 192, 192);
+@stack-heap-segment-color: rgb(255, 204, 0);
 @font-size: 12px;
 
 body {
@@ -59,10 +59,10 @@ body {
     box-sizing: border-box;
     .next-instruction {
       position: absolute;
-      background-color: rgba(@pc-color, 0.125);
+      background-color: rgba(@text-segment-color, 0.125);
     }
     .breakpoint {
-      background-color: rgba(@pc-color, 0.5);
+      background-color: rgba(@text-segment-color, 0.5);
     }
   }
 }
@@ -148,39 +148,55 @@ body {
       right: 0;
       .table {
         top: 0;
-        .row {
-          line-height: 32px;
-          .col {
-            width: calc(100% / 4);
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            &.memory-area {
-              opacity: 0.5;
-            }
-            &.registers {
-              flex-wrap: wrap;
-              .register {
-                padding: 0 @space;
-                margin-right: @space;
-                margin-bottom: @space;
-                margin-top: @space;
-                height: @table-row-height;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 4px;
-                &.pc {
-                  background-color: rgba(@pc-color, 0.5);
-                }
-                &.gp {
-                  background-color: rgba(@gp-color, 0.5);
-                }
-                &.sp {
-                  background-color: rgba(@sp-color, 0.5);
+        .memory-segment {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          .row {
+            line-height: 32px;
+            .col {
+              width: calc(100% / 4);
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              &.segment {
+                border-top: none;
+                color: rgba(0, 0, 0, 0.375);
+              }
+              &.registers {
+                flex-wrap: wrap;
+                .register {
+                  padding: 0 @space;
+                  margin-right: @space;
+                  margin-bottom: @space;
+                  margin-top: @space;
+                  height: @table-row-height;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 4px;
+                  &.pc {
+                    background-color: rgba(@text-segment-color, 0.5);
+                  }
+                  &.gp {
+                    background-color: rgba(@data-segment-color, 0.5);
+                  }
+                  &.sp {
+                    background-color: rgba(@stack-heap-segment-color, 0.5);
+                  }
                 }
               }
             }
+          }
+          &:last-child {
+            border-bottom: none;
+          }
+          &.stack-heap {
+            background-color: rgba(@stack-heap-segment-color, 0.1);
+          }
+          &.data {
+            background-color: rgba(@data-segment-color, 0.1);
+          }
+          &.text {
+            background-color: rgba(@text-segment-color, 0.1);
           }
         }
       }
@@ -240,13 +256,15 @@ body {
     width: 100%;
     min-height: @table-row-height;
     display: flex;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     .col {
       padding: 0 @space;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
     &:first-child {
-      border-top: none;
+      .col {
+        border-top: none;
+      }
     }
   }
 }

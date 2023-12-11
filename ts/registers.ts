@@ -34,7 +34,7 @@ export function updateRegisters() {
         `;
     }
     registersDiv.innerHTML = `
-            <div class="title">Registers</div>
+            <div class="title">REGISTERS</div>
             <div class="table-container"><div class="table">
                 ${rows}
             </div></div>

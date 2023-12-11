@@ -2,19 +2,11 @@ import { vm } from "./app.js";
 export const memoryDiv = document.getElementById('memory');
 export function updateMemory() {
     const memory = vm.getMemory();
-    const memoryLines = [];
+    const textLines = [];
+    const dataLines = [];
+    const stackHeapLines = [];
     for (const address of Array.from(memory.keys())) {
         const value = memory.get(address);
-        let memoryArea = undefined;
-        if (address >= 0x00400000 && address < 0x10000000) {
-            memoryArea = "Text Segment";
-        }
-        else if (address >= 0x10000000 && address < 0x10040000) {
-            memoryArea = "Data Segment";
-        }
-        else if (address >= 0x10040000 && address < 0x7FFFFFFC) {
-            memoryArea = "Stack / Heap";
-        }
         let registers = [];
         if (address == vm.getSpecialRegister("pc").value)
             registers.push("pc");
@@ -22,19 +14,45 @@ export function updateMemory() {
             registers.push("$gp");
         if (address == vm.getRegisterByName("$sp").value)
             registers.push("$sp");
-        memoryLines.push({
-            memoryArea: memoryArea,
-            registers: registers,
-            address: address,
-            value: value
-        });
+        if (address >= 0x00400000 && address < 0x10000000) {
+            textLines.push({
+                registers: registers,
+                address: address,
+                value: value
+            });
+        }
+        else if (address >= 0x10000000 && address < 0x10040000) {
+            dataLines.push({
+                registers: registers,
+                address: address,
+                value: value
+            });
+        }
+        else if (address >= 0x10040000 && address < 0x7FFFFFFC) {
+            stackHeapLines.push({
+                registers: registers,
+                address: address,
+                value: value
+            });
+        }
     }
-    let rows = "";
-    for (const memoryLine of memoryLines) {
-        const hexAddress = "0x" + memoryLine.address.toString(16).padStart(8, '0');
-        const hexValue = "0x" + (memoryLine.value ? memoryLine.value.toString(16).padStart(8, '0') : "00000000");
+    memoryDiv.innerHTML = `
+        <div class="title">MEMORY</div>
+        <div class="table-container"><div class="table">
+            ${segmentHTML("STACK / HEAP", "stack-heap", stackHeapLines)}
+            ${segmentHTML("DATA SEGMENT", "data", dataLines)}
+            ${segmentHTML("TEXT SEGMENT", "text", textLines)}
+        </div></div>
+    `;
+}
+function segmentHTML(segmentName, className, lines) {
+    let HTML = `<div class="memory-segment ${className}">`;
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const hexAddress = "0x" + line.address.toString(16).padStart(8, '0');
+        const hexValue = "0x" + (line.value ? line.value.toString(16).padStart(8, '0') : "00000000");
         let registersHTML = "";
-        for (const register of memoryLine.registers) {
+        for (const register of line.registers) {
             if (register.charAt(0) === "$") {
                 registersHTML += `<div class="register ${register.substring(1)}">${register}</div>`;
             }
@@ -42,10 +60,13 @@ export function updateMemory() {
                 registersHTML += `<div class="register ${register}">${register}</div>`;
             }
         }
-        rows += `
+        let colSegmentName = "";
+        if (i == 0)
+            colSegmentName = segmentName;
+        HTML += `
             <div class="row">
-                <div class="col memory-area">
-                    ${memoryLine.memoryArea}
+                <div class="col segment">
+                    ${colSegmentName}
                 </div>
                 <div class="col registers">
                     ${registersHTML}
@@ -59,10 +80,6 @@ export function updateMemory() {
             </div>
         `;
     }
-    memoryDiv.innerHTML = `
-        <div class="title">Memory</div>
-        <div class="table-container"><div class="table">
-            ${rows}
-        </div></div>
-    `;
+    HTML += `</div>`;
+    return HTML;
 }

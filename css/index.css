@@ -138,22 +138,26 @@ body {
 #memory-container #memory .table-container .table {
   top: 0;
 }
-#memory-container #memory .table-container .table .row {
+#memory-container #memory .table-container .table .memory-segment {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+#memory-container #memory .table-container .table .memory-segment .row {
   line-height: 32px;
 }
-#memory-container #memory .table-container .table .row .col {
+#memory-container #memory .table-container .table .memory-segment .row .col {
   width: calc(100% / 4);
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-#memory-container #memory .table-container .table .row .col.memory-area {
-  opacity: 0.5;
+#memory-container #memory .table-container .table .memory-segment .row .col.segment {
+  border-top: none;
+  color: rgba(0, 0, 0, 0.375);
 }
-#memory-container #memory .table-container .table .row .col.registers {
+#memory-container #memory .table-container .table .memory-segment .row .col.registers {
   flex-wrap: wrap;
 }
-#memory-container #memory .table-container .table .row .col.registers .register {
+#memory-container #memory .table-container .table .memory-segment .row .col.registers .register {
   padding: 0 6px;
   margin-right: 6px;
   margin-bottom: 6px;
@@ -164,14 +168,26 @@ body {
   justify-content: center;
   border-radius: 4px;
 }
-#memory-container #memory .table-container .table .row .col.registers .register.pc {
+#memory-container #memory .table-container .table .memory-segment .row .col.registers .register.pc {
   background-color: rgba(50, 173, 230, 0.5);
 }
-#memory-container #memory .table-container .table .row .col.registers .register.gp {
+#memory-container #memory .table-container .table .memory-segment .row .col.registers .register.gp {
   background-color: rgba(192, 192, 192, 0.5);
 }
-#memory-container #memory .table-container .table .row .col.registers .register.sp {
-  background-color: rgba(192, 192, 192, 0.5);
+#memory-container #memory .table-container .table .memory-segment .row .col.registers .register.sp {
+  background-color: rgba(255, 204, 0, 0.5);
+}
+#memory-container #memory .table-container .table .memory-segment:last-child {
+  border-bottom: none;
+}
+#memory-container #memory .table-container .table .memory-segment.stack-heap {
+  background-color: rgba(255, 204, 0, 0.1);
+}
+#memory-container #memory .table-container .table .memory-segment.data {
+  background-color: rgba(192, 192, 192, 0.1);
+}
+#memory-container #memory .table-container .table .memory-segment.text {
+  background-color: rgba(50, 173, 230, 0.1);
 }
 .buttons {
   position: absolute;
@@ -222,12 +238,12 @@ body {
   width: 100%;
   min-height: 20px;
   display: flex;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
 .table .row .col {
   padding: 0 6px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
-.table .row:first-child {
+.table .row:first-child .col {
   border-top: none;
 }
