@@ -1,5 +1,5 @@
 import {vm} from "./app.js";
-import {word} from "./virtual-machine/Memory";
+import {word} from "./virtual-machine/Memory.js";
 
 type memoryLine = {
     registers: string[];
