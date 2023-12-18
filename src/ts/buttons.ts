@@ -1,7 +1,8 @@
-import {editor, updateEditor} from "./editor.js";
 import {updateInterface, vm} from "./app.js";
-import {updateRegisters} from "./registers.js";
+import {editor, updateEditor} from "./editor.js";
 import {updateMemory} from "./memory.js";
+import {updateRegisters} from "./registers.js";
+
 
 export type Button = {
     div: HTMLDivElement,

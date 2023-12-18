@@ -1,7 +1,8 @@
 import {Memory, word} from "./Memory.js";
-import {register, Registers} from "./Registers.js";
 import {directive, Directives} from "./Directives.js";
-import {instruction, InstructionSet} from "./InstructionSet.js";
+import {Registers, register} from "./Registers.js";
+import {InstructionSet, instruction} from "./InstructionSet.js";
+
 
 export type assembledLine = {
     sourceLine: number,

@@ -1,6 +1,7 @@
 import {Memory, word} from "./Memory.js";
 import {Registers} from "./Registers.js";
-import {instruction, InstructionSet} from "./InstructionSet.js";
+import {InstructionSet, instruction} from "./InstructionSet.js";
+
 
 export class CPU {
 

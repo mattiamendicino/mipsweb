@@ -1,5 +1,6 @@
-import {vm} from "./app.js";
 import {word} from "./virtual-machine/Memory.js";
+import {vm} from "./app.js";
+
 
 type memoryLine = {
     registers: string[];
@@ -16,9 +17,8 @@ export function updateMemory() {
     const dataLines: memoryLine[] = [];
     const stackHeapLines: memoryLine[] = [];
 
-    for (const address of Array.from(memory.keys())) {
+    for (const address of Array.from(memory.keys()) as word[]) {
         const value = memory.get(address);
-
         let registers: string[] = [];
         if (address == vm.getSpecialRegister("pc")!.value) registers.push("pc");
         if (address == vm.getRegisterByName("$gp")!.value) registers.push("$gp");
@@ -48,9 +48,9 @@ export function updateMemory() {
     memoryDiv.innerHTML = `
         <div class="title">MEMORY</div>
         <div class="table-container"><div class="table">
-            ${segmentHTML("STACK / HEAP", "stack-heap", stackHeapLines)}
-            ${segmentHTML("DATA SEGMENT", "data", dataLines)}
             ${segmentHTML("TEXT SEGMENT","text", textLines)}
+            ${segmentHTML("DATA SEGMENT", "data", dataLines)}
+            ${segmentHTML("STACK / HEAP", "stack-heap", stackHeapLines)}
         </div></div>
     `;
 

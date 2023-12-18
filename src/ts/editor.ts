@@ -1,7 +1,6 @@
 import {vm} from "./app.js";
 
 export const editorContainerDiv = document.getElementById('editor-container')!;
-export const editorOverlayContainerDiv =  document.getElementById('editor-overlay-container')!;
 
 export const editor = ace.edit("editor");
 editor.setTheme("ace/theme/chrome");

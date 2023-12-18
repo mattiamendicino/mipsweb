@@ -22,7 +22,7 @@ export class Memory {
     }
 
     get() {
-        const sortedKeys = Array.from(this.memory.keys()).sort((a, b) => b - a);
+        const sortedKeys = Array.from(this.memory.keys()).sort((a, b) => a - b);
         const sortedMemory = new Map<word, word>();
         for (const key of sortedKeys) {
             sortedMemory.set(key, this.memory.get(key)!);

@@ -39,9 +39,9 @@ export function updateMemory() {
     memoryDiv.innerHTML = `
         <div class="title">MEMORY</div>
         <div class="table-container"><div class="table">
-            ${segmentHTML("STACK / HEAP", "stack-heap", stackHeapLines)}
-            ${segmentHTML("DATA SEGMENT", "data", dataLines)}
             ${segmentHTML("TEXT SEGMENT", "text", textLines)}
+            ${segmentHTML("DATA SEGMENT", "data", dataLines)}
+            ${segmentHTML("STACK / HEAP", "stack-heap", stackHeapLines)}
         </div></div>
     `;
 }

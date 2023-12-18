@@ -1,5 +1,6 @@
-import {register} from "./virtual-machine/Registers.js";
 import {vm} from "./app.js";
+import {register} from "./virtual-machine/Registers.js";
+
 
 export const registersDiv = document.getElementById('registers')!;
 

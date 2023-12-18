@@ -55,21 +55,6 @@ body {
 #editor-container #editor .breakpoint {
   background-color: rgba(50, 173, 230, 0.5);
 }
-#editor-overlay-container {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  bottom: 0;
-  width: calc(80%/2);
-  z-index: 2;
-}
-#editor-overlay-container #editor-overlay {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 6px;
-  bottom: 12px;
-}
 #registers-container {
   position: absolute;
   top: 64px;

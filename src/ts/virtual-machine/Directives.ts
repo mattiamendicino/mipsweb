@@ -2,6 +2,7 @@ import {Memory} from "./Memory.js";
 import {Registers} from "./Registers.js";
 import {Assembler} from "./Assembler.js";
 
+
 export type directive = {
     assemble(lineNumber: number, parts: string[], memory: Memory, registers: Registers, assembler: Assembler): void;
 }

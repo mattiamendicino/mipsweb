@@ -1,5 +1,6 @@
-import {Registers} from "./Registers.js";
 import {word} from "./Memory.js";
+import {Registers} from "./Registers.js";
+
 
 export type instruction = {
     format?: 'R' | 'I' | 'J';

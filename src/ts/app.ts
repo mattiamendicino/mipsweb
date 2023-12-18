@@ -1,7 +1,8 @@
 import {VirtualMachine} from "./virtual-machine/VirtualMachine.js";
-import {editorContainerDiv, editorOverlayContainerDiv} from "./editor.js";
+import {editorContainerDiv} from "./editor.js";
 import {assembleButton, buttons, runButton, runInstructionButton, stopButton} from "./buttons.js";
 import {updateRegisters} from "./registers.js";
+
 
 export const vm = new VirtualMachine();
 
@@ -13,14 +14,12 @@ export function updateInterface() {
         stopButton.div.style.display = "none";
         runButton.div.style.display = "none";
         runInstructionButton.div.style.display = "none";
-        editorOverlayContainerDiv.style.display = "none";
     } else if (vmState === "execute") {
         editorContainerDiv.style.width = "40%";
         assembleButton.div.style.display = "none";
         stopButton.div.style.display = "block";
         runButton.div.style.display = "block";
         runInstructionButton.div.style.display = "block";
-        editorOverlayContainerDiv.style.display = "block";
     }
 }
 
@@ -35,10 +34,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         button.div.addEventListener('click', () => {
             button.onClick();
         });
-    });
-
-    editorOverlayContainerDiv.addEventListener('click', () => {
-       stopButton.onClick();
     });
 
 });
