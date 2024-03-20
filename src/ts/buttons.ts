@@ -1,56 +1,41 @@
 import {updateInterface, vm} from "./app.js";
-import {editor, updateEditor} from "./editor.js";
-import {updateMemory} from "./memory.js";
-import {updateRegisters} from "./registers.js";
+import {newFile} from "./files.js";
+import {currentEditorId, editors} from "./editor.js";
 
-
-export type Button = {
-    div: HTMLDivElement,
-    onClick: () => void
-}
-
-export const buttons: Button[] = [];
-
-export const assembleButton: Button = {
-    div: document.getElementById('assemble-button')! as HTMLDivElement,
-    onClick: () => {
-        vm.assemble(editor.getValue());
-        updateEditor();
+export const buttons: Map<string, () => void> = new Map<string, () => void>([
+    ["settings", () => {
+        console.log("Settings");
+    }],
+    ["assemble", () => {
+        if (currentEditorId === null) return;
+        vm.assemble(editors[currentEditorId].getValue());
         updateInterface();
-        updateMemory();
-    }
-}
-buttons.push(assembleButton);
-
-export const stopButton: Button = {
-    div: document.getElementById('stop-button')! as HTMLDivElement,
-    onClick: () => {
-        vm.stop();
-        updateEditor();
-        updateInterface();
-        updateRegisters();
-    }
-}
-buttons.push(stopButton);
-
-export const runButton: Button = {
-    div: document.getElementById('run-button')! as HTMLDivElement,
-    onClick: () => {
-        vm.run();
-        updateMemory();
-        updateEditor();
-        updateRegisters();
-    }
-}
-buttons.push(runButton);
-
-export const runInstructionButton: Button = {
-    div: document.getElementById('runInstruction-button')! as HTMLDivElement,
-    onClick: () => {
+    }],
+    ["step", () => {
         vm.runInstruction();
-        updateMemory();
-        updateEditor();
-        updateRegisters();
-    }
+        updateInterface();
+    }],
+    ["run", () => {
+        vm.run();
+        updateInterface();
+    }],
+    ["stop", () => {
+        vm.stop();
+        updateInterface();
+    }],
+    ["newFile", () => {
+        vm.stop();
+        newFile();
+        updateInterface();
+    }],
+    ["importFile", () => {
+        vm.stop();
+        //importFile();
+        updateInterface();
+    }]
+]);
+
+export function execute(name: string) {
+    const f = buttons.get(name);
+    if (f) f();
 }
-buttons.push(runInstructionButton);

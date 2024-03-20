@@ -9,39 +9,66 @@
 </head>
 <body>
 
-<div id="header-container"><div id="header">
-  <div class="buttons-container"><div class="buttons">
-    <div id="assemble-button" class="button">Assemble</div>
-    <div id="runInstruction-button" class="button">Run(1)</div>
-    <div id="run-button" class="button">Run</div>
-    <div id="stop-button" class="button">Stop</div>
-  </div></div>
-</div></div>
-<div id="editor-container"><div id="editor">
-  .data
+<div id="header">
+  <div class="logo">MIPSWEB</div>
+  <div class="buttons">
+    <div id="settings" class="button">
+        <div class="icon" data-resource="resources/icons/settings.svg"></div>
+        <div class="text">Settings</div>
+    </div>
+  </div>
+</div>
+<div id="content">
+  <div class="buttons">
+    <div class="left">
+        <div id="newFile" class="button">
+          <div class="icon" data-resource="resources/icons/new-file.svg"></div>
+          <div class="text">New File</div>
+        </div>
+        <div id="importFile" class="button">
+            <div class="icon" data-resource="resources/icons/import-file.svg"></div>
+            <div class="text">Import File</div>
+        </div>
+    </div>
+    <div class="right">
+      <div id="assemble" class="button">
+        <div class="icon" data-resource="resources/icons/assemble.svg"></div>
+        <div class="text">Assemble</div>
+      </div>
+      <div id="step" class="button">
+        <div class="icon" data-resource="resources/icons/step.svg"></div>
+        <div class="text">Step</div>
+      </div>
+      <div id="run" class="button">
+        <div class="icon" data-resource="resources/icons/run.svg"></div>
+        <div class="text">Run</div>
+      </div>
+      <div id="stop" class="button">
+        <div class="icon" data-resource="resources/icons/stop.svg"></div>
+        <div class="text">Stop</div>
+      </div>
+    </div>
+  </div>
+  <div id="editor-container">
+      <div class="files">
+        <!--
+        <div class="button">
+          <div class="icon" data-resource="resources/icons/files.svg"></div>
+          <div class="text">Files</div>
+        </div>
+        -->
+        <div id="files-tabs"></div>
+      </div>
+      <div id="editors"></div>
+  </div>
+  <div id="memory"></div>
+  <div id="registers"></div>
+</div>
 
-  1 2 3
-
-  0xA2
-
-  'b'
-
-  .text
-
-  addi $t1, $zero, 1  # 0 + 1 = 1 -> $t1
-  addi $t2, $zero, 2  # 0 + 2 = 2 -> $t2
-  addi $t3, $zero, 3  # 0 + 3 = 3 -> $t3
-  addi $t4, $zero, 4  # 0 + 4 = 4 -> $t4
-  addi $t5, $zero, 5  # 0 + 5 = 5 -> $t5
-  sub  $t6, $t4, $t3  # 4 - 3 = 1  -> $t6
-  add  $t7, $t6, $t2  # 1 + 2 = 3  -> $t7
-  addi $s0, $t7, 7    # 3 + 7 = 10 -> $s0
-</div></div>
-<div id="memory-container"><div id="memory"></div></div>
-<div id="registers-container"><div id="registers"></div></div>
 
 <script src="./lib/ace-editor/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script type="module" src="./js/app.js"></script>
+<script type="module" src="./js/files.js"></script>
 <script type="module" src="./js/header.js"></script>
 <script type="module" src="./js/editor.js"></script>
 <script type="module" src="./js/buttons.js"></script>

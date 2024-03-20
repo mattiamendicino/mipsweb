@@ -1,45 +1,41 @@
 import { updateInterface, vm } from "./app.js";
-import { editor, updateEditor } from "./editor.js";
-import { updateMemory } from "./memory.js";
-import { updateRegisters } from "./registers.js";
-export const buttons = [];
-export const assembleButton = {
-    div: document.getElementById('assemble-button'),
-    onClick: () => {
-        vm.assemble(editor.getValue());
-        updateEditor();
-        updateInterface();
-        updateMemory();
-    }
-};
-buttons.push(assembleButton);
-export const stopButton = {
-    div: document.getElementById('stop-button'),
-    onClick: () => {
-        vm.stop();
-        updateEditor();
-        updateInterface();
-        updateRegisters();
-    }
-};
-buttons.push(stopButton);
-export const runButton = {
-    div: document.getElementById('run-button'),
-    onClick: () => {
-        vm.run();
-        updateMemory();
-        updateEditor();
-        updateRegisters();
-    }
-};
-buttons.push(runButton);
-export const runInstructionButton = {
-    div: document.getElementById('runInstruction-button'),
-    onClick: () => {
-        vm.runInstruction();
-        updateMemory();
-        updateEditor();
-        updateRegisters();
-    }
-};
-buttons.push(runInstructionButton);
+import { newFile } from "./files.js";
+import { currentEditorId, editors } from "./editor.js";
+export const buttons = new Map([
+    ["settings", () => {
+            console.log("Settings");
+        }],
+    ["assemble", () => {
+            if (currentEditorId === null)
+                return;
+            vm.assemble(editors[currentEditorId].getValue());
+            updateInterface();
+        }],
+    ["step", () => {
+            vm.runInstruction();
+            updateInterface();
+        }],
+    ["run", () => {
+            vm.run();
+            updateInterface();
+        }],
+    ["stop", () => {
+            vm.stop();
+            updateInterface();
+        }],
+    ["newFile", () => {
+            vm.stop();
+            newFile();
+            updateInterface();
+        }],
+    ["importFile", () => {
+            vm.stop();
+            //importFile();
+            updateInterface();
+        }]
+]);
+export function execute(name) {
+    const f = buttons.get(name);
+    if (f)
+        f();
+}

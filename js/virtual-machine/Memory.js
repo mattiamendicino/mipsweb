@@ -3,8 +3,9 @@ export class Memory {
         this.memory = new Map();
     }
     static word(number) {
-        // TODO: Convert number to word
-        return number;
+        if (!Number.isInteger(number))
+            throw new Error('');
+        return number | 0;
     }
     clear() {
         this.memory.clear();

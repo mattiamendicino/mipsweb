@@ -1,3 +1,4 @@
+/*
 import {vm} from "./app.js";
 import {register} from "./virtual-machine/Registers.js";
 
@@ -41,3 +42,4 @@ export function updateRegisters() {
             </div></div>
         `;
 }
+ */

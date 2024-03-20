@@ -1,28 +1,29 @@
-import { vm } from "./app.js";
-export const registersDiv = document.getElementById('registers');
+"use strict";
+/*
+import {vm} from "./app.js";
+import {register} from "./virtual-machine/Registers.js";
+
+
+export const registersDiv = document.getElementById('registers')!;
+
 export function updateRegisters() {
     let rows = "";
     let registers = vm.getRegisters();
     for (let i = 0; i < registers.length + 3; i++) {
-        let register;
+        let register: register;
         if (i < registers.length) {
             register = registers[i];
-        }
-        else {
-            if (i === 32)
-                register = vm.getSpecialRegister("pc");
-            if (i === 33)
-                register = vm.getSpecialRegister("hi");
-            if (i === 34)
-                register = vm.getSpecialRegister("lo");
+        } else {
+            if (i === 32) register = vm.getSpecialRegister("pc")!;
+            if (i === 33) register = vm.getSpecialRegister("hi")!;
+            if (i === 34) register = vm.getSpecialRegister("lo")!;
         }
         let number = "";
-        if (i < registers.length)
-            number = `${i}`;
+        if (i < registers.length) number = `${i}`;
         rows += `
             <div class="row">
                 <div class="col name">
-                    ${register.name}
+                    ${register!.name}
                 </div>
                 <!--
                 <div class="col number">
@@ -30,7 +31,7 @@ export function updateRegisters() {
                 </div>
                 -->
                 <div class="col value">
-                    ${register.value}
+                    ${register!.value}
                 </div>
             </div>
         `;
@@ -42,3 +43,4 @@ export function updateRegisters() {
             </div></div>
         `;
 }
+ */ 

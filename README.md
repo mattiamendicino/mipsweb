@@ -5,8 +5,5 @@ Progetto svolto come tirocinio presso l'Università degli Studi di Milano Statal
 
 È possibile provare il simulatore al seguente link [mattiamendicino.github.io/mipsweb](https://mattiamendicino.github.io/mipsweb/).
 
-### Istruzioni supportate
+La visualizzazione della memoria e dei registri è in fase di sviluppo e al momento è disabilitata.
 
-- add
-- sub
-- addi

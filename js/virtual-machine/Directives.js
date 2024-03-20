@@ -14,7 +14,7 @@ export class Directives {
 Directives.directives = new Map([
     [".data", {
             assemble(lineNumber, parts, memory, registers, assembler) {
-                console.log(".data", parts);
+                //console.log(".data", parts);
                 if (parts.length > 0 && parts[0] === ".data")
                     parts = parts.slice(1);
                 assembler.assembleData(lineNumber, parts, memory, registers);
@@ -22,22 +22,22 @@ Directives.directives = new Map([
         }],
     [".align", {
             assemble(lineNumber, parts, memory, registers, assembler) {
-                console.log(".align", parts);
+                //console.log(".align", parts);
             }
         }],
     [".space", {
             assemble(lineNumber, parts, memory, registers, assembler) {
-                console.log(".space", parts);
+                //console.log(".space", parts);
             }
         }],
     [".asciiz", {
             assemble(lineNumber, parts, memory, registers, assembler) {
-                console.log(".asciiz", parts);
+                //console.log(".asciiz", parts);
             }
         }],
     [".text", {
             assemble(lineNumber, parts, memory, registers, assembler) {
-                console.log(".text", parts);
+                //console.log(".text", parts);
                 if (parts.length > 0 && parts[0] === ".text")
                     parts = parts.slice(1);
                 assembler.assembleInstruction(lineNumber, parts, memory, registers);

@@ -5,8 +5,8 @@ export class Memory {
     private memory: Map<word, word> = new Map<word, word>();
 
     static word(number: number): word {
-        // TODO: Convert number to word
-        return number as word;
+        if (!Number.isInteger(number)) throw new Error('')
+        return number | 0;
     }
 
     clear() {
