@@ -1,5 +1,5 @@
 import {closeFile, file, getFiles, switchToFile, updateFile} from "./files.js";
-import {loadSVGIcons, updateInterface} from "./app.js";
+import {loadSVGIcons, updateInterface, vm} from "./app.js";
 
 export type editor = {
     fileId: number,
@@ -125,8 +125,6 @@ export function actionsOnFile(fileId: number) {
     console.log(`Actions on file: ${fileId}`);
 }
 
-/*
-
 export function updateEditor(editor: editor): void {
     const aceEditor: AceAjax.Editor = editor.aceEditor;
     const vmState = vm.getState();
@@ -173,6 +171,4 @@ export function updateEditor(editor: editor): void {
         }
     }
 }
-
- */
 

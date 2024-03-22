@@ -1,116 +1,90 @@
 import {updateInterface, vm} from "./app.js";
-import {importFile, newFile} from "./files.js";
+import {getFile, importFile, newFile} from "./files.js";
 
 function settingsButton() {
     console.log("Settings");
 }
 
 function newFileButton() {
+    console.log("New file button");
     vm.stop();
     newFile();
 }
 
 function importFileButton() {
+    console.log("Import file button");
     vm.stop();
     importFile();
 }
 
 function assembleButton() {
-    console.log("Assemble");
+    const currentFileId = localStorage.getItem("currentFileId");
+    if (currentFileId) {
+        const file = getFile(parseInt(currentFileId));
+        if (file) {
+            const fileContent = file.content;
+            if (fileContent) {
+                console.log(`Assemble: ${file.name}`);
+                vm.assemble(fileContent);
+                updateInterface();
+            }
+        }
+    }
 }
 
 function stepButton() {
     console.log("Step");
+    vm.runInstruction();
+    updateInterface();
 }
 
 function runButton() {
     console.log("Run");
+    vm.run();
+    updateInterface();
 }
 
 function stopButton() {
     console.log("Stop");
+    vm.stop();
+    updateInterface();
 }
 
 export function updateButtons() {
 
     const settingsHTMLElement = document.getElementById("settings")!;
-    if (settingsHTMLElement) settingsHTMLElement.addEventListener("click", (event) => {
+    if (settingsHTMLElement) settingsHTMLElement.addEventListener("click", () => {
         settingsButton();
     });
 
     const newFileHTMLElement = document.getElementById("newFile")!;
-    if (newFileHTMLElement) newFileHTMLElement.addEventListener("click", (event) => {
+    if (newFileHTMLElement) newFileHTMLElement.addEventListener("click", () => {
         newFileButton();
     });
 
     const importFileHTMLElement = document.getElementById("importFile")!;
-    if (importFileHTMLElement) importFileHTMLElement.addEventListener("click", (event) => {
+    if (importFileHTMLElement) importFileHTMLElement.addEventListener("click", () => {
         importFileButton();
     });
 
     const assembleHTMLElement = document.getElementById("assemble")!;
-    if (assembleHTMLElement) assembleHTMLElement.addEventListener("click", (event) => {
+    if (assembleHTMLElement) assembleHTMLElement.addEventListener("click", () => {
         assembleButton();
     });
 
     const stepHTMLElement = document.getElementById("step")!;
-    if (stepHTMLElement) stepHTMLElement.addEventListener("click", (event) => {
+    if (stepHTMLElement) stepHTMLElement.addEventListener("click", () => {
         stepButton();
     });
 
     const runHTMLElement = document.getElementById("run")!;
-    if (runHTMLElement) runHTMLElement.addEventListener("click", (event) => {
+    if (runHTMLElement) runHTMLElement.addEventListener("click", () => {
         runButton();
     });
 
     const stopHTMLElement = document.getElementById("stop")!;
-    if (stopHTMLElement) stopHTMLElement.addEventListener("click", (event) => {
+    if (stopHTMLElement) stopHTMLElement.addEventListener("click", () => {
         stopButton();
     });
 
 }
-
-/*
-
-import {updateInterface, vm} from "./app.js";
-import {newFile} from "./files.js";
-
-export const buttons: Map<string, () => void> = new Map<string, () => void>([
-    ["settings", () => {
-        console.log("Settings");
-    }],
-    ["assemble", () => {
-        const program = "";
-        vm.assemble(program);
-        updateInterface();
-    }],
-    ["step", () => {
-        vm.runInstruction();
-        updateInterface();
-    }],
-    ["run", () => {
-        vm.run();
-        updateInterface();
-    }],
-    ["stop", () => {
-        vm.stop();
-        updateInterface();
-    }],
-    ["newFile", () => {
-        vm.stop();
-        newFile();
-        updateInterface();
-    }],
-    ["importFile", () => {
-        vm.stop();
-        //importFile();
-        updateInterface();
-    }]
-]);
-
-export function execute(name: string) {
-    const f = buttons.get(name);
-    if (f) f();
-}
-
- */

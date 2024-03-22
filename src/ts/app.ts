@@ -1,7 +1,7 @@
 import {updateButtons} from "./buttons.js";
 import {VirtualMachine} from "./virtual-machine/VirtualMachine.js";
 import {getFiles} from "./files.js";
-import {initEditors} from "./editor.js";
+import {editors, initEditors, updateEditor} from "./editor.js";
 
 export const vm = new VirtualMachine();
 
@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export function updateInterface() {
+
+    console.log("Update interface");
 
     displayElements("none", [
         "header",
@@ -54,14 +56,52 @@ export function updateInterface() {
             "content",
             "newFile",
             "importFile",
-            "editor-container"
+            "editor-container",
+            "memory",
+            "registers"
         ]);
 
+        const vmState = vm.getState();
+
+        if (vmState === "edit") {
+
+            displayElements("flex", [
+                "assemble"
+            ]);
+            document.getElementById("editor-container")!.style.right = "20%";
+
+        } else if (vmState === "execute") {
+
+            displayElements("flex", [
+                "step",
+                "run",
+                "stop"
+            ]);
+            document.getElementById("editor-container")!.style.right = "60%";
+
+            if (!vm.getNextInstructionLine()) {
+
+                displayElements("none", [
+                    "step",
+                    "run"
+                ]);
+
+            }
+
+        }
+
+    }
+
+    const currentFileId = localStorage.getItem("currentFileId");
+    if (currentFileId) {
+        const editor = editors.find(editor => editor.fileId === parseInt(currentFileId));
+        if (editor) updateEditor(editor);
     }
 
 }
 
 export function loadSVGIcons() {
+    console.log("Load SVG icons");
     document.querySelectorAll('.icon').forEach(icon => {
         const resourcePath = icon.getAttribute("data-resource");
         if (resourcePath && !icon.hasAttribute("data-loaded")) { // Aggiungi un controllo per evitare ricaricamenti
@@ -87,78 +127,3 @@ function displayElements(display: "block" | "flex" | "none", elements: string[])
         if (el) el.style.display = display;
     });
 }
-
-/*
-
-import {VirtualMachine} from "./virtual-machine/VirtualMachine.js";
-import {buttons} from "./buttons.js";
-import {getFiles} from "./files.js";
-import {editors, initEditors, updateEditor} from "./editor.js";
-
-export const vm = new VirtualMachine();
-
-export function updateInterface() {
-
-    const currentFileId = localStorage.getItem("currentFileId");
-    if (currentFileId) {
-        const editor = editors.find(editor => editor.fileId === parseInt(currentFileId));
-        if (editor) updateEditor(editor);
-    }
-
-    const files = getFiles();
-
-    if (files.length === 0) {
-        displayElements("none", [
-            "editor-container",
-            "memory",
-            "registers",
-            "assemble",
-            "step",
-            "run",
-            "stop"
-        ]);
-    } else if (files.length > 0) {
-        displayElements("flex", [
-            "editor-container",
-            "memory",
-            "registers",
-            "assemble",
-            "step",
-            "run",
-            "stop"
-        ]);
-        const vmState = vm.getState();
-        if (vmState === "edit") {
-            displayElements("flex", [
-                "assemble"
-            ]);
-            displayElements("none", [
-                "step",
-                "run",
-                "stop"
-            ]);
-            document.getElementById("editor-container")!.style.right = "20%";
-        } else if (vmState === "execute") {
-            displayElements("none", [
-                "assemble"
-            ]);
-            if (vm.getNextInstructionLine()) {
-                displayElements("flex", [
-                    "step", "run"
-                ]);
-            } else {
-                displayElements("none", [
-                    "step", "run"
-                ]);
-            }
-            displayElements("flex", [
-                "stop"
-            ]);
-            document.getElementById("editor-container")!.style.right = "60%";
-        }
-
-    }
-
-}
-
- */

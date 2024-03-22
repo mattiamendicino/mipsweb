@@ -1,5 +1,5 @@
 import { closeFile, getFiles, switchToFile, updateFile } from "./files.js";
-import { loadSVGIcons, updateInterface } from "./app.js";
+import { loadSVGIcons, updateInterface, vm } from "./app.js";
 export let editors = [];
 export let tabsContainer = document.getElementById('files-tabs');
 export let editorsContainer = document.getElementById('editors');
@@ -99,10 +99,8 @@ export function removeEditor(fileId) {
 export function actionsOnFile(fileId) {
     console.log(`Actions on file: ${fileId}`);
 }
-/*
-
-export function updateEditor(editor: editor): void {
-    const aceEditor: AceAjax.Editor = editor.aceEditor;
+export function updateEditor(editor) {
+    const aceEditor = editor.aceEditor;
     const vmState = vm.getState();
     const cursors = document.getElementsByClassName("ace_hidden-cursors");
     if (vmState === "edit") {
@@ -112,7 +110,7 @@ export function updateEditor(editor: editor): void {
             highlightGutterLine: true
         });
         for (let i = 0; i < cursors.length; i++) {
-            (cursors[i] as HTMLElement).style.display = "block";
+            cursors[i].style.display = "block";
         }
         let markers = aceEditor.session.getMarkers(false);
         for (let i in markers) {
@@ -122,14 +120,15 @@ export function updateEditor(editor: editor): void {
         }
         aceEditor.session.clearBreakpoints();
         aceEditor.focus();
-    } else if (vmState === "execute") {
+    }
+    else if (vmState === "execute") {
         aceEditor.setOptions({
             readOnly: true,
             highlightActiveLine: false,
             highlightGutterLine: false
         });
         for (let i = 0; i < cursors.length; i++) {
-            (cursors[i] as HTMLElement).style.display = "none";
+            cursors[i].style.display = "none";
         }
         const nextInstructionLine = vm.getNextInstructionLine();
         let markers = aceEditor.session.getMarkers(false);
@@ -140,12 +139,9 @@ export function updateEditor(editor: editor): void {
         }
         aceEditor.session.clearBreakpoints();
         if (nextInstructionLine) {
-            let Range = ace.require('ace/range').Range,
-                range = new Range(nextInstructionLine - 1, 0, nextInstructionLine - 1, Infinity);
+            let Range = ace.require('ace/range').Range, range = new Range(nextInstructionLine - 1, 0, nextInstructionLine - 1, Infinity);
             aceEditor.session.addMarker(range, "next-instruction", "fullLine", false);
-            aceEditor.session.setBreakpoint(nextInstructionLine-1, "breakpoint");
+            aceEditor.session.setBreakpoint(nextInstructionLine - 1, "breakpoint");
         }
     }
 }
-
- */
