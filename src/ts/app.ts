@@ -1,15 +1,113 @@
+import {updateButtons} from "./buttons.js";
+import {VirtualMachine} from "./virtual-machine/VirtualMachine.js";
+import {getFiles} from "./files.js";
+import {initEditors} from "./editor.js";
+
+export const vm = new VirtualMachine();
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    updateInterface();
+
+    updateButtons();
+    loadSVGIcons();
+    initEditors();
+
+    document.body.style.opacity = "1";
+
+});
+
+export function updateInterface() {
+
+    displayElements("none", [
+        "header",
+        "settings",
+        "content",
+        "newFile",
+        "importFile",
+        "assemble",
+        "step",
+        "run",
+        "stop",
+        "editor-container",
+        "memory",
+        "registers"
+    ]);
+
+    const files = getFiles();
+
+    if(files.length === 0) {
+
+        displayElements("flex", [
+            "header",
+            "settings",
+            "content",
+            "newFile",
+            "importFile"
+        ]);
+
+    } else if(files.length > 0) {
+
+        displayElements("flex", [
+            "header",
+            "settings",
+            "content",
+            "newFile",
+            "importFile",
+            "editor-container"
+        ]);
+
+    }
+
+}
+
+export function loadSVGIcons() {
+    document.querySelectorAll('.icon').forEach(icon => {
+        const resourcePath = icon.getAttribute("data-resource");
+        if (resourcePath && !icon.hasAttribute("data-loaded")) { // Aggiungi un controllo per evitare ricaricamenti
+            fetch(resourcePath)
+                .then(response => {
+                    if (response.ok) return response.text();
+                    else throw new Error('Network response was not ok.');
+                })
+                .then(svgContent => {
+                    icon.innerHTML = svgContent;
+                    icon.setAttribute("data-loaded", "true"); // Segna l'icona come caricata
+                })
+                .catch(error => {
+                    console.error('Could not load the SVG:', error);
+                });
+        }
+    });
+}
+
+function displayElements(display: "block" | "flex" | "none", elements: string[]) {
+    elements.forEach(element => {
+        const el = document.getElementById(element);
+        if (el) el.style.display = display;
+    });
+}
+
+/*
+
 import {VirtualMachine} from "./virtual-machine/VirtualMachine.js";
 import {buttons} from "./buttons.js";
 import {getFiles} from "./files.js";
-import {currentEditorId, editors, initEditors, updateEditor} from "./editor.js";
+import {editors, initEditors, updateEditor} from "./editor.js";
 
 export const vm = new VirtualMachine();
 
 export function updateInterface() {
 
-    if (currentEditorId !== null) updateEditor(editors[currentEditorId]);
+    const currentFileId = localStorage.getItem("currentFileId");
+    if (currentFileId) {
+        const editor = editors.find(editor => editor.fileId === parseInt(currentFileId));
+        if (editor) updateEditor(editor);
+    }
 
-    if (getFiles().length === 0) {
+    const files = getFiles();
+
+    if (files.length === 0) {
         displayElements("none", [
             "editor-container",
             "memory",
@@ -19,7 +117,7 @@ export function updateInterface() {
             "run",
             "stop"
         ]);
-    } else if (getFiles().length > 0) {
+    } else if (files.length > 0) {
         displayElements("flex", [
             "editor-container",
             "memory",
@@ -63,39 +161,4 @@ export function updateInterface() {
 
 }
 
-function displayElements(display: "block" | "flex" | "none", elements: string[]) {
-    elements.forEach(element => {
-        const el = document.getElementById(element);
-        if (el) el.style.display = display;
-    });
-}
-document.addEventListener('DOMContentLoaded', () => {
-
-    updateInterface();
-    initEditors();
-
-    document.querySelectorAll('.icon').forEach(icon => {
-        const resourcePath = icon.getAttribute("data-resource");
-        if (resourcePath) {
-            fetch(resourcePath)
-                .then(response => {
-                    if (response.ok) return response.text();
-                    else throw new Error('Network response was not ok.');
-                })
-                .then(svgContent => {
-                    icon.innerHTML = svgContent;
-                })
-                .catch(error => {
-                    console.error('Could not load the SVG:', error);
-                });
-        }
-    });
-
-    document.querySelectorAll('.button').forEach(button => {
-        const buttonId = button.id;
-        if (buttonId && buttons.has(buttonId)) button.addEventListener('click', buttons.get(buttonId)!);
-    });
-
-    document.body.style.opacity = "1";
-
-});
+ */

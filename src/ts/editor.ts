@@ -1,74 +1,138 @@
-import {getFiles, file, updateFile} from "./files.js";
-import {execute} from "./buttons.js";
-import {vm} from "./app.js";
+import {closeFile, file, getFiles, switchToFile, updateFile} from "./files.js";
+import {loadSVGIcons, updateInterface} from "./app.js";
 
-export let editors: AceAjax.Editor[] = [];
-export let currentEditorId: number | null = null;
+export type editor = {
+    fileId: number,
+    aceEditor: AceAjax.Editor;
+}
+
+export let editors: editor[] = [];
+
 export let tabsContainer: HTMLElement = document.getElementById('files-tabs')!;
 export let editorsContainer: HTMLElement = document.getElementById('editors')!;
 
 export function initEditors(): void {
+    console.log("Init editors");
     const files = getFiles();
-    files.forEach(file => addTab(file));
+    files.forEach((file) => {
+        addEditor(file);
+    });
+    if (getFiles().length > 0) {
+        switchToEditor(parseInt(localStorage.getItem("currentFileId") || "0"));
+    }
 }
 
-export function addTab(file: file): void {
-    const fileId = editors.length;
-    const tab = document.createElement('div');
-    tab.textContent = file.name;
+export function switchToEditor(fileId: number) {
+    console.log(`Switch to editor: ${fileId}`);
+
+    const tabsHTMLElements = document.getElementsByClassName('file-tab');
+    for (let i = 0; i < tabsHTMLElements.length; i++) {
+        (tabsHTMLElements[i] as HTMLElement).classList.remove('current');
+    }
+
+    const editorsHTMLElements = document.getElementsByClassName('editor');
+    for (let i = 0; i < editorsHTMLElements.length; i++) {
+        (editorsHTMLElements[i] as HTMLElement).style.display = 'none';
+    }
+
+    const tabHTMLElement = document.getElementById(`file-tab_${fileId}`);
+    if (tabHTMLElement) tabHTMLElement.classList.add('current');
+
+    const editorHTMLElement = document.getElementById(`editor_${fileId}`);
+    if (editorHTMLElement) editorHTMLElement.style.display = 'block';
+
+    const editor = editors.find(editor => editor.fileId === fileId);
+    if (editor) {
+        editor.aceEditor.focus();
+        editor.aceEditor.clearSelection();
+    }
+
+}
+
+export function addEditor(file: file) {
+
+    console.log(`Add editor: ${file.id}`);
+
+    const tab: HTMLDivElement = document.createElement('div');
     tab.className = 'file-tab';
-    tab.dataset.editorId = fileId.toString();
-    tab.addEventListener('click', () => switchToEditor(fileId));
+    tab.id = `file-tab_${file.id}`;
+    tab.addEventListener('click', () => {
+        switchToFile(file.id);
+    });
+
+    const textDiv: HTMLDivElement = document.createElement('div');
+    textDiv.className = 'text';
+    textDiv.textContent = `${file.name}.${file.type}`;
+    tab.appendChild(textDiv);
+
+    const actionsDiv: HTMLDivElement = document.createElement('div');
+    actionsDiv.className = 'icon';
+    actionsDiv.id = `actions_${file.id}`;
+    actionsDiv.setAttribute('data-resource', 'resources/icons/actions.svg');
+    actionsDiv.addEventListener('click', (event) => {
+        event.stopPropagation();
+        actionsOnFile(file.id);
+    });
+    tab.appendChild(actionsDiv);
+
+    const closeFileDiv: HTMLDivElement = document.createElement('div');
+    closeFileDiv.className = 'icon svg-red';
+    closeFileDiv.id = `closeFile_${file.id}`;
+    closeFileDiv.setAttribute('data-resource', 'resources/icons/close.svg');
+    closeFileDiv.addEventListener('click', (event) => {
+        event.stopPropagation();
+        closeFile(file.id);
+    });
+    tab.appendChild(closeFileDiv);
+
     tabsContainer.appendChild(tab);
+    loadSVGIcons();
 
-    const editorDiv = document.createElement('div');
+    const editorDiv: HTMLDivElement = document.createElement('div');
     editorDiv.className = 'editor';
+    editorDiv.id = `editor_${file.id}`;
     editorsContainer.appendChild(editorDiv);
-
-    const editor = ace.edit(editorDiv);
+    const editor: AceAjax.Editor = ace.edit(editorDiv);
     editor.setTheme("ace/theme/chrome");
     editor.session.setMode("ace/mode/mips");
     editor.setValue(file.content);
-    editor.on("change", () => updateFile(file.id, editor.getValue()));
-    editors.push(editor);
-
+    editor.on("change", () => {
+        updateFile(file.id, editor.getValue());
+    });
     editorDiv.style.display = 'none';
 
-    if (editors.length === 1) {
-        switchToEditor(0);
-    }
+    editors.push({
+        fileId: file.id,
+        aceEditor: editor
+    });
+
+    updateInterface();
+
 }
 
-export function switchToEditor(editorId: number): void {
-    execute("stop");
-    if (currentEditorId !== null) {
-        const currentEditorDiv = editors[currentEditorId].container;
-        currentEditorDiv.style.display = 'none';
-        const currentTab = tabsContainer.querySelector(`.file-tab[data-editor-id="${currentEditorId}"]`) as HTMLElement;
-        currentTab.classList.remove('current');
-    }
+export function removeEditor(fileId: number) {
+    console.log(`Remove editor: ${fileId}`);
+    const tab = document.getElementById(`file-tab_${fileId}`);
+    if (tab) tab.remove();
+    const editor = document.getElementById(`editor_${fileId}`);
+    if (editor) editor.remove();
+    editors = editors.filter(editor => editor.fileId !== fileId);
 
-    const newEditorDiv = editors[editorId].container;
-    newEditorDiv.style.display = 'block';
-
-    currentEditorId = editorId;
-
-    const newTab = tabsContainer.querySelector(`.file-tab[data-editor-id="${editorId}"]`) as HTMLElement;
-    newTab.classList.add('current');
-    editors[editorId].clearSelection();
-    editors[editorId].focus();
+    updateInterface();
 }
 
-export function editorNewFile(file: file) {
-    addTab(file);
-    switchToEditor(editors.length - 1);
+export function actionsOnFile(fileId: number) {
+    console.log(`Actions on file: ${fileId}`);
 }
 
-export function updateEditor(editor: AceAjax.Editor): void {
+/*
+
+export function updateEditor(editor: editor): void {
+    const aceEditor: AceAjax.Editor = editor.aceEditor;
     const vmState = vm.getState();
     const cursors = document.getElementsByClassName("ace_hidden-cursors");
     if (vmState === "edit") {
-        editor.setOptions({
+        aceEditor.setOptions({
             readOnly: false,
             highlightActiveLine: true,
             highlightGutterLine: true
@@ -76,16 +140,16 @@ export function updateEditor(editor: AceAjax.Editor): void {
         for (let i = 0; i < cursors.length; i++) {
             (cursors[i] as HTMLElement).style.display = "block";
         }
-        let markers = editor.session.getMarkers(false);
+        let markers = aceEditor.session.getMarkers(false);
         for (let i in markers) {
             if (markers[i].clazz === "next-instruction") {
-                editor.session.removeMarker(markers[i].id);
+                aceEditor.session.removeMarker(markers[i].id);
             }
         }
-        editor.session.clearBreakpoints();
-        editor.focus();
+        aceEditor.session.clearBreakpoints();
+        aceEditor.focus();
     } else if (vmState === "execute") {
-        editor.setOptions({
+        aceEditor.setOptions({
             readOnly: true,
             highlightActiveLine: false,
             highlightGutterLine: false
@@ -94,21 +158,21 @@ export function updateEditor(editor: AceAjax.Editor): void {
             (cursors[i] as HTMLElement).style.display = "none";
         }
         const nextInstructionLine = vm.getNextInstructionLine();
-        let markers = editor.session.getMarkers(false);
+        let markers = aceEditor.session.getMarkers(false);
         for (let i in markers) {
             if (markers[i].clazz === "next-instruction") {
-                editor.session.removeMarker(markers[i].id);
+                aceEditor.session.removeMarker(markers[i].id);
             }
         }
-        editor.session.clearBreakpoints();
+        aceEditor.session.clearBreakpoints();
         if (nextInstructionLine) {
             let Range = ace.require('ace/range').Range,
                 range = new Range(nextInstructionLine - 1, 0, nextInstructionLine - 1, Infinity);
-            editor.session.addMarker(range, "next-instruction", "fullLine", false);
-            editor.session.setBreakpoint(nextInstructionLine-1, "breakpoint");
+            aceEditor.session.addMarker(range, "next-instruction", "fullLine", false);
+            aceEditor.session.setBreakpoint(nextInstructionLine-1, "breakpoint");
         }
     }
 }
 
-
+ */
 

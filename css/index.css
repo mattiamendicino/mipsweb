@@ -86,10 +86,10 @@ body {
 }
 #editor-container #editors .editor .next-instruction {
   position: absolute;
-  background-color: rgba(50, 173, 230, 0.125);
+  background-color: rgba(85, 190, 240, 0.125);
 }
 #editor-container #editors .editor .breakpoint {
-  background-color: rgba(50, 173, 230, 0.5);
+  background-color: rgba(85, 190, 240, 0.5);
 }
 #editor-container .files {
   height: 48px;
@@ -121,14 +121,41 @@ body {
   justify-content: center;
   align-items: center;
   user-select: none;
-  cursor: pointer;
+  background-color: #e5e5ea;
+  transition: background-color 0.25s, border-bottom-color 0.25s;
+  border-bottom: #e5e5ea solid 2px;
 }
 #editor-container .files #files-tabs .file-tab.current {
-  border-bottom: #32ade6 solid 2px;
-  padding-bottom: calc(6px * 2 - 2px);
+  border-bottom: #55bef0 solid 2px;
 }
 #editor-container .files #files-tabs .file-tab:hover {
-  background-color: rgba(50, 173, 230, 0.1);
+  background-color: rgba(85, 190, 240, 0.1);
+}
+#editor-container .files #files-tabs .file-tab .icon {
+  height: 16px;
+  width: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+}
+#editor-container .files #files-tabs .file-tab .icon:hover svg {
+  fill: #636366;
+}
+#editor-container .files #files-tabs .file-tab .icon:hover.svg-red svg {
+  fill: #ff3b30;
+}
+#editor-container .files #files-tabs .file-tab .icon svg {
+  width: 100%;
+  height: 100%;
+  fill: #aeaeb2;
+  transition: fill 0.25s;
+}
+#editor-container .files #files-tabs .file-tab .text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
 }
 #editor-container .files::-webkit-scrollbar {
   display: none;
