@@ -1,13 +1,15 @@
 import { updateButtons } from "./buttons.js";
 import { VirtualMachine } from "./virtual-machine/VirtualMachine.js";
 import { getFiles } from "./files.js";
-import { editors, initEditors, updateEditor } from "./editor.js";
+import { initEditors } from "./editor.js";
+import { updateRegisters } from "./registers.js";
 export const vm = new VirtualMachine();
 document.addEventListener('DOMContentLoaded', () => {
     updateInterface();
     updateButtons();
     loadSVGIcons();
     initEditors();
+    updateRegisters();
     document.body.style.opacity = "1";
 });
 export function updateInterface() {
@@ -68,12 +70,6 @@ export function updateInterface() {
                 ]);
             }
         }
-    }
-    const currentFileId = localStorage.getItem("currentFileId");
-    if (currentFileId) {
-        const editor = editors.find(editor => editor.fileId === parseInt(currentFileId));
-        if (editor)
-            updateEditor(editor);
     }
 }
 export function loadSVGIcons() {

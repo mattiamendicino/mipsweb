@@ -34,12 +34,17 @@
 @file-current-color: @pc-color;
 @line-height: 16px;
 
+@registers-names-width: 27.5%;
+@registers-numbers-width: 27.5%;
+@registers-values-width: 45%;
+
 body {
   margin: 0;
   font-family: "Monaco", monospace;
   opacity: 0;
   transition: opacity 0.5s;
   font-size: @font-size-medium;
+  user-select: none;
 }
 
 #header {
@@ -216,6 +221,43 @@ body {
   margin: @space calc(@space / 2);
   box-sizing: border-box;
   background-color: @light-gray-5;
+  .memory-header {
+    width: 100%;
+    height: @header-height;
+    display: flex;
+    .title {
+      height: @header-height;
+      position: absolute;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: @space @space @space @space * 2;
+      box-sizing: border-box;
+    }
+    .icon {
+      position: absolute;
+      right: 0;
+      height: @header-height;
+      width: @header-height;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: @space;
+      &:hover {
+        svg {
+          fill: @dark-gray-2;
+        }
+      }
+      svg {
+        width: @line-height;
+        height: @line-height;
+        fill: @light-gray-2;
+        transition: fill 0.25s;
+      }
+    }
+  }
 }
 
 #registers {
@@ -227,6 +269,118 @@ body {
   margin: @space @space @space calc(@space / 2);
   box-sizing: border-box;
   background-color: @light-gray-5;
+  .registers-header {
+    width: 100%;
+    height: @header-height;
+    display: flex;
+    .title {
+      height: @header-height;
+      position: absolute;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: @space @space @space @space * 2;
+      box-sizing: border-box;
+    }
+    .icon {
+      position: absolute;
+      right: 0;
+      height: @header-height;
+      width: @header-height;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: @space;
+      &:hover {
+        svg {
+          fill: @dark-gray-2;
+        }
+      }
+      svg {
+        width: @line-height;
+        height: @line-height;
+        fill: @light-gray-2;
+        transition: fill 0.25s;
+      }
+    }
+  }
+  .registers-table {
+    position: absolute;
+    top: @header-height;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    .cols-names {
+      display: flex;
+      position: absolute;
+        top: @space;
+        left: 0;
+        right: 0;
+        height: @line-height;
+      .col-name {
+        display: flex;
+        align-items: flex-start;
+        &.name {
+          justify-content: flex-start;
+          width: @registers-names-width;
+          padding-left: @space;
+          box-sizing: border-box;
+        }
+        &.number {
+          justify-content: flex-end;
+          width: @registers-numbers-width;
+        }
+        &.value {
+          justify-content: flex-end;
+          width: @registers-values-width;
+          padding-right: @space;
+          box-sizing: border-box;
+        }
+      }
+    }
+    #registers-rows {
+      position: absolute;
+      top: @line-height + (@space * 2);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: calc(@space / 2);
+        .col {
+          display: flex;
+          align-items: center;
+          &.name {
+            justify-content: flex-start;
+            width: @registers-names-width;
+            padding-left: @space;
+            box-sizing: border-box;
+          }
+          &.number {
+            justify-content: flex-end;
+            width: @registers-numbers-width;
+          }
+          &.value {
+            justify-content: flex-end;
+            width: @registers-values-width;
+            padding-right: @space;
+            box-sizing: border-box;
+          }
+        }
+        &.changed {
+          background-color: rgba(@green, 0.25);
+        }
+      }
+    }
+  }
 }
 
 

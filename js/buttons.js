@@ -1,5 +1,7 @@
 import { updateInterface, vm } from "./app.js";
 import { getFile, importFile, newFile } from "./files.js";
+import { updateRegisters } from "./registers.js";
+import { updateEditor } from "./editor.js";
 function settingsButton() {
     console.log("Settings");
 }
@@ -23,6 +25,7 @@ function assembleButton() {
                 console.log(`Assemble: ${file.name}`);
                 vm.assemble(fileContent);
                 updateInterface();
+                updateEditor();
             }
         }
     }
@@ -30,17 +33,23 @@ function assembleButton() {
 function stepButton() {
     console.log("Step");
     vm.runInstruction();
+    updateRegisters();
     updateInterface();
+    updateEditor();
 }
 function runButton() {
     console.log("Run");
     vm.run();
+    updateRegisters();
     updateInterface();
+    updateEditor();
 }
 function stopButton() {
     console.log("Stop");
     vm.stop();
+    updateRegisters();
     updateInterface();
+    updateEditor();
 }
 export function updateButtons() {
     const settingsHTMLElement = document.getElementById("settings");
