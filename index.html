@@ -10,7 +10,7 @@
 <body>
 
 <div id="header">
-  <div class="logo">UNIMIPS</div>
+  <div class="logo">MIPSWEB</div>
   <div class="buttons">
     <div id="settings" class="button">
         <div class="icon" data-resource="resources/icons/settings.svg"></div>
@@ -66,195 +66,31 @@
           <div class="title">Memory</div>
           <div id="memoryActions" class="icon" data-resource="resources/icons/actions.svg"></div>
       </div>
+        <div class="memory-buttons">
+            <div id="goTo" class="button">
+                <!-- <div class="icon" data-resource="resources/icons/.svg"></div> -->
+                <div class="text">Go to</div>
+            </div>
+        </div>
+      <div class="memory-table table">
+          <div class="cols-names">
+              <div id="memory-address-col" class="col-name address">Address</div>
+              <div id="memory-value-col" class="col-name value">Value</div>
+          </div>
+      </div>
   </div>
   <div id="registers">
       <div class="registers-header">
           <div class="title">Registers</div>
           <div id="registersActions" class="icon" data-resource="resources/icons/actions.svg"></div>
       </div>
-      <div class="registers-table">
+      <div class="registers-table table">
           <div class="cols-names">
-              <div class="col-name name">Name</div>
-              <div class="col-name number">Number</div>
-              <div class="col-name value">Value</div>
+              <div id="registers-number-col" class="col-name number">Number</div>
+              <div id="registers-name-col" class="col-name name">Name</div>
+              <div id="registers-value-col" class="col-name value">Value</div>
           </div>
-          <div id="registers-rows">
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row changed">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-              <div class="row">
-                  <div class="col name">$zero</div>
-                  <div class="col number">0</div>
-                  <div class="col value">0x00000000</div>
-              </div>
-          </div>
+          <div id="registers-rows"></div>
       </div>
   </div>
 </div>

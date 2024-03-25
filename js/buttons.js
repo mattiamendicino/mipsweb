@@ -7,12 +7,12 @@ function settingsButton() {
 }
 function newFileButton() {
     console.log("New file button");
-    vm.stop();
+    stopButton();
     newFile();
 }
 function importFileButton() {
     console.log("Import file button");
-    vm.stop();
+    stopButton();
     importFile();
 }
 function assembleButton() {

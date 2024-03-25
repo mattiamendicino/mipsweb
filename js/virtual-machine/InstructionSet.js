@@ -74,5 +74,5 @@ InstructionSet.instructions = new Map([
                 registers[rt].value = registers[rs].value + immediate;
                 // ------------------------------------------------------------
             }
-        }],
+        }]
 ]);

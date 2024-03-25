@@ -39,7 +39,7 @@ export class InstructionSet {
                 registers[rt].value = registers[rs].value + immediate;
                 // ------------------------------------------------------------
             }
-        }],
+        }]
     ]);
 
     static get(name: string): instruction | undefined {

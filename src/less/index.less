@@ -23,7 +23,7 @@
 @dark-gray-5: rgb(44, 44, 46);
 @dark-gray-6: rgb(28, 28, 30);
 
-@header-height: 48px;
+@header-height: 42px;
 @space: 6px;
 @font-size-medium: 12px;
 @font-size-large: 14px;
@@ -45,6 +45,13 @@ body {
   transition: opacity 0.5s;
   font-size: @font-size-medium;
   user-select: none;
+  color: @dark-gray-6;
+}
+
+.icon {
+  svg {
+    fill: @dark-gray-6;
+  }
 }
 
 #header {
@@ -258,6 +265,39 @@ body {
       }
     }
   }
+  .memory-buttons {
+    position: absolute;
+    top: @header-height - @space;
+    left: 0;
+    right: 0;
+    height: @header-height;
+    padding: calc(@space / 2);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .memory-table {
+    position: absolute;
+    top: calc(@header-height * 2  - @space);
+    left: @space;
+    right: @space;
+    bottom: @space;
+    background-color: @light-gray-6;
+    .cols-names {
+      justify-content: flex-end;
+      .col-name {
+        width: 20%;
+        justify-content: center;
+        &.address {
+          //background-color: @blue;
+        }
+        &.value {
+          //background-color: @green;
+        }
+      }
+    }
+  }
 }
 
 #registers {
@@ -309,40 +349,32 @@ body {
   .registers-table {
     position: absolute;
     top: @header-height;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: @space;
+    right: @space;
+    bottom: @space;
+    background-color: @light-gray-6;
     .cols-names {
-      display: flex;
-      position: absolute;
-        top: @space;
-        left: 0;
-        right: 0;
-        height: @line-height;
       .col-name {
-        display: flex;
-        align-items: flex-start;
-        &.name {
-          justify-content: flex-start;
-          width: @registers-names-width;
-          padding-left: @space;
-          box-sizing: border-box;
-        }
         &.number {
           justify-content: flex-end;
-          width: @registers-numbers-width;
+          //background-color: @orange;
+          width: 25%;
+        }
+        &.name {
+          //background-color: @yellow;
+          width: 25%;
         }
         &.value {
           justify-content: flex-end;
-          width: @registers-values-width;
-          padding-right: @space;
-          box-sizing: border-box;
+          //background-color: @purple;
+          width: 50%;
         }
       }
     }
     #registers-rows {
+      //background-color: @indigo;
       position: absolute;
-      top: @line-height + (@space * 2);
+      top: calc(@space * 2 + @line-height);
       left: 0;
       right: 0;
       bottom: 0;
@@ -353,32 +385,38 @@ body {
       }
       .row {
         display: flex;
-        align-items: flex-start;
-        margin-bottom: calc(@space / 2);
         .col {
           display: flex;
-          align-items: center;
-          &.name {
-            justify-content: flex-start;
-            width: @registers-names-width;
-            padding-left: @space;
-            box-sizing: border-box;
-          }
+          padding: 0 @space;
           &.number {
             justify-content: flex-end;
-            width: @registers-numbers-width;
+            //background-color: @orange;
+            width: 25%;
+          }
+          &.name {
+            //background-color: @yellow;
+            width: 25%;
           }
           &.value {
             justify-content: flex-end;
-            width: @registers-values-width;
-            padding-right: @space;
-            box-sizing: border-box;
+            //background-color: @purple;
+            width: 50%;
           }
         }
-        &.changed {
-          background-color: rgba(@green, 0.25);
-        }
       }
+    }
+  }
+}
+
+.table {
+  .cols-names {
+    //background-color: red;
+    display: flex;
+    padding: @space 0;
+    .col-name {
+      height: @line-height;
+      display: flex;
+      padding: 0 @space;
     }
   }
 }

@@ -5,10 +5,14 @@ body {
   transition: opacity 0.5s;
   font-size: 12px;
   user-select: none;
+  color: #1c1c1e;
+}
+.icon svg {
+  fill: #1c1c1e;
 }
 #header {
   width: 100%;
-  height: 48px;
+  height: 42px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,12 +37,12 @@ body {
 #content {
   width: 100%;
   position: absolute;
-  top: 48px;
+  top: 42px;
   bottom: 0;
 }
 #content .buttons {
   width: 100%;
-  height: 48px;
+  height: 42px;
   display: flex;
   background-color: #e5e5ea;
 }
@@ -61,7 +65,7 @@ body {
 #editor-container {
   background-color: #e5e5ea;
   position: absolute;
-  top: 48px;
+  top: 42px;
   bottom: 0;
   left: 0;
   right: 20%;
@@ -72,7 +76,7 @@ body {
 }
 #editor-container #editors {
   position: absolute;
-  top: 48px;
+  top: 42px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -93,7 +97,7 @@ body {
   background-color: rgba(85, 190, 240, 0.5);
 }
 #editor-container .files {
-  height: 48px;
+  height: 42px;
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -163,7 +167,7 @@ body {
 }
 #memory {
   position: absolute;
-  top: 48px;
+  top: 42px;
   bottom: 0;
   left: 40%;
   right: 20%;
@@ -173,11 +177,11 @@ body {
 }
 #memory .memory-header {
   width: 100%;
-  height: 48px;
+  height: 42px;
   display: flex;
 }
 #memory .memory-header .title {
-  height: 48px;
+  height: 42px;
   position: absolute;
   left: 0;
   display: flex;
@@ -189,8 +193,8 @@ body {
 #memory .memory-header .icon {
   position: absolute;
   right: 0;
-  height: 48px;
-  width: 48px;
+  height: 42px;
+  width: 42px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -206,9 +210,36 @@ body {
   fill: #aeaeb2;
   transition: fill 0.25s;
 }
+#memory .memory-buttons {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  right: 0;
+  height: 42px;
+  padding: calc(6px / 2);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+#memory .memory-table {
+  position: absolute;
+  top: calc(42px * 2 - 6px);
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  background-color: #f2f2f7;
+}
+#memory .memory-table .cols-names {
+  justify-content: flex-end;
+}
+#memory .memory-table .cols-names .col-name {
+  width: 20%;
+  justify-content: center;
+}
 #registers {
   position: absolute;
-  top: 48px;
+  top: 42px;
   bottom: 0;
   left: 80%;
   right: 0;
@@ -218,11 +249,11 @@ body {
 }
 #registers .registers-header {
   width: 100%;
-  height: 48px;
+  height: 42px;
   display: flex;
 }
 #registers .registers-header .title {
-  height: 48px;
+  height: 42px;
   position: absolute;
   left: 0;
   display: flex;
@@ -234,8 +265,8 @@ body {
 #registers .registers-header .icon {
   position: absolute;
   right: 0;
-  height: 48px;
-  width: 48px;
+  height: 42px;
+  width: 42px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -253,42 +284,26 @@ body {
 }
 #registers .registers-table {
   position: absolute;
-  top: 48px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-#registers .registers-table .cols-names {
-  display: flex;
-  position: absolute;
-  top: 6px;
-  left: 0;
-  right: 0;
-  height: 16px;
-}
-#registers .registers-table .cols-names .col-name {
-  display: flex;
-  align-items: flex-start;
-}
-#registers .registers-table .cols-names .col-name.name {
-  justify-content: flex-start;
-  width: 27.5%;
-  padding-left: 6px;
-  box-sizing: border-box;
+  top: 42px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  background-color: #f2f2f7;
 }
 #registers .registers-table .cols-names .col-name.number {
   justify-content: flex-end;
-  width: 27.5%;
+  width: 25%;
+}
+#registers .registers-table .cols-names .col-name.name {
+  width: 25%;
 }
 #registers .registers-table .cols-names .col-name.value {
   justify-content: flex-end;
-  width: 45%;
-  padding-right: 6px;
-  box-sizing: border-box;
+  width: 50%;
 }
 #registers .registers-table #registers-rows {
   position: absolute;
-  top: 28px;
+  top: calc(6px * 2 + 16px);
   left: 0;
   right: 0;
   bottom: 0;
@@ -300,31 +315,30 @@ body {
 }
 #registers .registers-table #registers-rows .row {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: calc(6px / 2);
 }
 #registers .registers-table #registers-rows .row .col {
   display: flex;
-  align-items: center;
-}
-#registers .registers-table #registers-rows .row .col.name {
-  justify-content: flex-start;
-  width: 27.5%;
-  padding-left: 6px;
-  box-sizing: border-box;
+  padding: 0 6px;
 }
 #registers .registers-table #registers-rows .row .col.number {
   justify-content: flex-end;
-  width: 27.5%;
+  width: 25%;
+}
+#registers .registers-table #registers-rows .row .col.name {
+  width: 25%;
 }
 #registers .registers-table #registers-rows .row .col.value {
   justify-content: flex-end;
-  width: 45%;
-  padding-right: 6px;
-  box-sizing: border-box;
+  width: 50%;
 }
-#registers .registers-table #registers-rows .row.changed {
-  background-color: rgba(40, 205, 65, 0.25);
+.table .cols-names {
+  display: flex;
+  padding: 6px 0;
+}
+.table .cols-names .col-name {
+  height: 16px;
+  display: flex;
+  padding: 0 6px;
 }
 .button {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
